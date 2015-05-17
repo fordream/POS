@@ -11,13 +11,18 @@ public class Table {
 	private int color;
 	private int totalPrice;
 	
+	/**
+	 * 제대로 계산을 끝냈으면 true, 튀었으면 false
+	 * <br> default는 false
+	 */
+	private boolean paid;
 	
 	
 	public Table( int tableNumber) {
 		super();
 		this.orderList = new ArrayList<Menu>();
 		this.tableNumber = tableNumber;
-	
+		setPaid(false);
 	}
 	
 	public ArrayList<Menu> getOrderList() {
@@ -44,6 +49,14 @@ public class Table {
 	}
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
 	}
 	
 

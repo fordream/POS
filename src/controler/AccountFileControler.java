@@ -23,8 +23,8 @@ public class AccountFileControler  {
 		temp.getAccountData().add(account);
 		setAccountData(temp);
 	}
-
-
+	
+	
 	public void readFromFile()
 	{
 		try

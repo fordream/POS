@@ -20,17 +20,14 @@ import model.PosData;
 public class POSPage extends SimpleJFrame implements ActionListener, KeyListener, FocusListener{
 
 	private LineBorder lineBorder;
-	private JPanel tablePanel;
-	private JPanel menuPanel;
 	private JLabel posMainLabel;
 	private JLabel logoLabel;
 	private JButton exitButton;
-	private JButton addTableButton;
-	private JButton deleteTableButton;
  
 	private PosData data;
-	TableInnerPanel tableInnerPanel;
-
+	
+	
+	private TableInnerPanel tableInnerPanel;
 	private MenuInnerPanel menuInnerPanel;
 
 	
@@ -40,10 +37,13 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		
 		data = new PosData();
 		
+		// this setup
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.getRootPane().setBorder(lineBorder);
-	
+		//
 		
+		
+		// CSE lost setup
 		logoLabel = new JLabel();
 		logoLabel.setIcon(new ImageIcon("img/CSELogo_120_60.png"));
 		this.add(logoLabel).setBounds(30, 10, 120, 60);
@@ -57,16 +57,10 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		posMainLabel.setText("Computer Science & Engineering POS");
 		posMainLabel.setVisible(true);
 		this.add(posMainLabel).setBounds(150, 30, 400, 50);
-		
-
-		
-		tableInnerPanel = new TableInnerPanel(data);
-		this.add(tableInnerPanel);
-
-		
-
+		//
 		
 		
+		// exit button setup
 		exitButton = new JButton(" Á¾ ·á ");
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		exitButton.setBackground(Color.WHITE);
@@ -74,45 +68,20 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		exitButton.setBorder(lineBorder);
 		exitButton.addActionListener(this);
 		this.add(exitButton).setBounds(1280, 30, 80, 30);
-	
+		//
 		
+		
+		// table panel setup
+		tableInnerPanel = new TableInnerPanel(data);
+		this.add(tableInnerPanel);
+		//
+		
+
+		// menu panel setup
 		menuInnerPanel = new MenuInnerPanel(data);
 		this.add(menuInnerPanel);
-		
-		
-		
-		//  setup
-		
 		//
-		
-		//  setup
-		
-		//
-		
-		
-		//  setup
-		
-		//
-		
-		
-		//  setup
-		
-		//
-		
-		
-		//  setup
-		
-		//
-		
-		
-		//  setup
-		
-		//
-		
-		
-		//  setup
-		
-		//
+
 	}
 	
 	@Override
