@@ -3,31 +3,70 @@ package controler;
 import java.util.ArrayList;
 
 import model.Menu;
+import model.PosData;
 
 public class MenuControler {
 
+	private PosData data;
 	
-	public MenuControler() {
-		
+	public MenuControler(PosData data) {
+		setData(data);
 	}
 	
-	public void	addMenu(ArrayList<Menu> myMenuList,Menu newmMenu)
+	/**
+	 * add new menu if there's no duplicated menu exits on the menu list<br>
+	 * otherwise, modify the menu(price)
+	 * 
+	 * @param newMenu
+	 */
+	public void	addMenu(Menu menu)
 	{
 		try
 		{
-		myMenuList.add(newmMenu);
+			int index = searchMenu(menu);
+			
+			if( index == -1 )
+				getData().getMenuList().add(menu);
+			else
+				modifyMenu( index, menu );
 		}
 		catch(Exception exception)
 		{
 			System.out.println("do not addMenu()");
 		}
-
 	}
-	public void	deleteMenu(ArrayList<Menu> myMenuList,int index)
+	
+	/**
+	 * delete specific menu from the menu list by index(int)
+	 * 
+	 * @param index : int
+	 */
+	public void	deleteMenu(int index)
 	{
 		try
 		{
-		myMenuList.remove(index);
+			getData().getMenuList().remove(index);
+		}
+		catch(Exception exception)
+		{
+			System.out.println("do not deleteMenu()");
+		}
+	
+	}
+	
+	/**
+	 * delete specific menu from the menu list by key(Menu)
+	 * 
+	 * @param index : int
+	 */
+	public void	deleteMenu(Menu menu)
+	{
+		try
+		{
+			int index = searchMenu(menu);
+			
+			if(index != -1)
+				getData().getMenuList().remove(index);
 		}
 		catch(Exception exception)
 		{
@@ -36,13 +75,17 @@ public class MenuControler {
 	
 	}
 
-	public void	modifyMenu(ArrayList<Menu> myMenuList,int index,String modifyname,int modifyprice)
+	/**
+	 * modify(reset) specific menu on the menu list by index
+	 * 
+	 * @param index
+	 * @param menu
+	 */
+	public void	modifyMenu(int index, Menu menu)
 	{
-
 		try
 		{
-			Menu temp = new Menu(modifyname,modifyprice);
-			myMenuList.set(index,temp);
+			getData().getMenuList().set(index, menu);
 		}
 		catch(Exception exception)
 		{
@@ -51,5 +94,35 @@ public class MenuControler {
 
 	}
 
+	/**
+	 * if there exists such menu then return the index of the menu<br>
+	 * otherwise, return negative value(-1)
+	 * 
+	 * @return index
+	 */
+	public int searchMenu(Menu keyMenu)
+	{
+		int index = -1;
+		
+		for(int i = 0; i < getData().getMenuList().size(); i++)
+		{
+			if( getData().getMenuList().get(i).getName().equals( keyMenu.getName() ))
+			{
+				index = i;
+				break;
+			}
+		}
+			
+		return index;
+	}
 
+	public PosData getData() {
+		return data;
+	}
+
+	public void setData(PosData data) {
+		this.data = data;
+	}
+	
+	
 }
