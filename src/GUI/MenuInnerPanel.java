@@ -41,7 +41,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private JButton[] drinkListButton;
 	
 	
-	private TableCalculate tableCalculate;
+	private TableCalculatePage tableCalculate;
 	
 	
 	private PosData data;
@@ -246,7 +246,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		}
 		else if(e.getSource() == calcTableButton)
 		{
-			tableCalculate = new TableCalculate( getData(), getCurrentTable() );
+			tableCalculate = new TableCalculatePage( getData(), getCurrentTable() );
 		}
 	}
 

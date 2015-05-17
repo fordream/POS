@@ -90,8 +90,8 @@ public class TableListPanel extends JPanel implements ActionListener
 			tableNum++;
 			
 			Table newTable = new Table(tableNum);
-			TableControler Tcon = new TableControler();
-			Tcon.addTable(data.getTableList(), newTable);
+			TableControler Tcon = new TableControler(data);
+			Tcon.addTable(newTable);
 			
 			int i=0,j=0;
 			for(i = tableNum;i >6;i -=6)
@@ -116,8 +116,8 @@ public class TableListPanel extends JPanel implements ActionListener
 			tableNum--;
 			
 			Table newTable = new Table(tableNum);
-			TableControler Tcon = new TableControler();
-			Tcon.deleteTable(data.getTableList(), tableNum);
+			TableControler Tcon = new TableControler(data);
+			Tcon.deleteTable(newTable);
 			this.remove(Table[tableNum]);
 			this.repaint();
 		}
