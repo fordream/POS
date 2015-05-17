@@ -26,6 +26,8 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	private JButton addTableButton;
 	private JButton deleteTableButton;
 	
+	private MenuInnerPanel menuInnerPanel;
+	
 	public POSPage() 
 	{
 		super("POSMainPage", 1400, 800);
@@ -56,16 +58,16 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		tablePanel.setBorder(lineBorder);
 		tablePanel.setBackground(Color.WHITE);
-		this.add(tablePanel).setBounds(30, 80, 800, 650);
+		this.add(tablePanel).setBounds(30, 80, 800, 680);
 		//
 		
 		
 		// menuPanel setup
-		menuPanel = new JPanel();
+		/*menuPanel = new JPanel();
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		menuPanel.setBorder(lineBorder);
 		menuPanel.setBackground(Color.WHITE);
-		add(menuPanel).setBounds(860, 80, 500, 650);
+		add(menuPanel).setBounds(860, 80, 500, 680);*/
 		//
 		
 		
@@ -80,8 +82,9 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		//
 		
 		
-		//  setup
-		
+		// menuInnerPanel setup
+		menuInnerPanel = new MenuInnerPanel();
+		this.add(menuInnerPanel);
 		//
 		
 		
@@ -126,6 +129,7 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		if(e.getSource() == exitButton)
 		{
 			System.out.println("before dispose, please save all the data into the file!");
+
 			this.dispose();
 		}
 	}
