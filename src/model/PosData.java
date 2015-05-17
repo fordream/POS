@@ -1,8 +1,14 @@
 package model;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class PosData {
+public class PosData implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 386210817840445076L;
 	
 	private ArrayList<Table> tableList; 
 	private ArrayList<Menu> menuList;
