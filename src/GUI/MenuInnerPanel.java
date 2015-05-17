@@ -44,9 +44,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private PosData data;
 	
 	
-	public MenuInnerPanel()
+	public MenuInnerPanel(PosData data)
 	{
 		// this setup
+		setData(data);
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
 		this.setBorder(lineBorder);
@@ -230,10 +231,11 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		if(e.getSource() == addFoodButton)
 		{
 			MenuAddPage menuAddPage = new MenuAddPage( getData() );
+			
 		}
 		else if(e.getSource() == addDrinkButton)
 		{
-			
+			MenuAddPage menuAddPage = new MenuAddPage( getData() );
 		}
 	}
 

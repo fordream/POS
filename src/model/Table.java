@@ -8,20 +8,16 @@ public class Table {
 	
 	private ArrayList<Menu> orderList;
 	private int tableNumber;
-	private Data time;
 	private int color;
 	private int totalPrice;
 	
 	
 	
-	public Table(ArrayList<Menu> orderList, int tableNumber, Data time,
-			int color, int totalPrice) {
+	public Table( int tableNumber) {
 		super();
-		this.orderList = orderList;
+		this.orderList = new ArrayList<Menu>();
 		this.tableNumber = tableNumber;
-		this.time = time;
-		this.color = color;
-		this.totalPrice = totalPrice;
+	
 	}
 	
 	public ArrayList<Menu> getOrderList() {
@@ -36,12 +32,7 @@ public class Table {
 	public void setTableNumber(int tableNumber) {
 		this.tableNumber = tableNumber;
 	}
-	public Data getTime() {
-		return time;
-	}
-	public void setTime(Data time) {
-		this.time = time;
-	}
+	
 	public int getColor() {
 		return color;
 	}

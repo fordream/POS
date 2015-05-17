@@ -9,13 +9,24 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import controler.TableControler;
+import model.PosData;
+import model.Table;
+
 public class TableListPanel extends JPanel implements ActionListener
 {
 
 	private LineBorder lineBorder;
 	private JButton[] Table;
 	private int tableNum;
+	private PosData data;
 	
+	public PosData getData() {
+		return data;
+	}
+	public void setData(PosData data) {
+		this.data = data;
+	}
 	public int getTableNum() {
 		return tableNum;
 	}
@@ -23,10 +34,11 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.tableNum = tableNum;
 	}
 	
-	TableListPanel()
+	TableListPanel(PosData data)
 	{
-		Table = new JButton[50];  
-		setTableNum(32);
+		setData(data);
+		Table = new JButton[50];
+		setTableNum(getData().getTableList().size());
 		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
@@ -36,6 +48,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		printTableList(getTableNum());
 		
 	}
+	
 	public void printTableList(int TableNum)
 	{
 		int j = 0;
@@ -49,6 +62,7 @@ public class TableListPanel extends JPanel implements ActionListener
 			printTable(i,j);
 		}
 	}
+	
 	public void printTable(int i,int j)
 	{
 			Table[i+j*8] = new JButton(""+(i+j*8+1));
@@ -69,7 +83,13 @@ public class TableListPanel extends JPanel implements ActionListener
 		else
 		{
 			
+			
+			
 			tableNum++;
+			
+			Table newTable = new Table(tableNum);
+			TableControler Tcon = new TableControler();
+			Tcon.addTable(data.getTableList(), newTable);
 			
 			int i=0,j=0;
 			for(i = tableNum;i >8;i -=8)
@@ -92,6 +112,10 @@ public class TableListPanel extends JPanel implements ActionListener
 		else
 		{
 			tableNum--;
+			
+			Table newTable = new Table(tableNum);
+			TableControler Tcon = new TableControler();
+			Tcon.deleteTable(data.getTableList(), tableNum);
 			this.remove(Table[tableNum]);
 			this.repaint();
 		}
@@ -99,7 +123,14 @@ public class TableListPanel extends JPanel implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		for(int i = 0;i<tableNum;i++)
+		{
+			if(e.getSource()  == Table[i])
+			{
+				System.out.println("Table["+(i+1)+"]"+data.getTableList().get(i).getOrderList());
+			}
+		}
 		
 	}
 	

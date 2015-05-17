@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import model.PosData;
+
 public class POSPage extends SimpleJFrame implements ActionListener, KeyListener, FocusListener{
 
 	private LineBorder lineBorder;
@@ -25,7 +27,8 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	private JButton exitButton;
 	private JButton addTableButton;
 	private JButton deleteTableButton;
-
+ 
+	private PosData data;
 	TableInnerPanel tableInnerPanel;
 
 	private MenuInnerPanel menuInnerPanel;
@@ -35,13 +38,12 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	{
 		super("POSMainPage", 1400, 800);
 		
+		data = new PosData();
 		
-		// POS page setup
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.getRootPane().setBorder(lineBorder);
-		//
+	
 		
-		// CES logo setup
 		logoLabel = new JLabel();
 		logoLabel.setIcon(new ImageIcon("img/CSELogo_120_60.png"));
 		this.add(logoLabel).setBounds(30, 10, 120, 60);
@@ -55,8 +57,10 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		posMainLabel.setText("Computer Science & Engineering POS");
 		posMainLabel.setVisible(true);
 		this.add(posMainLabel).setBounds(150, 30, 400, 50);
+		
 
-		tableInnerPanel = new TableInnerPanel();
+		
+		tableInnerPanel = new TableInnerPanel(data);
 		this.add(tableInnerPanel);
 
 		
@@ -72,7 +76,7 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		this.add(exitButton).setBounds(1280, 30, 80, 30);
 	
 		
-		menuInnerPanel = new MenuInnerPanel();
+		menuInnerPanel = new MenuInnerPanel(data);
 		this.add(menuInnerPanel);
 		
 		
