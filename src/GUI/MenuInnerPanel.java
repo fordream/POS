@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 import com.sun.glass.ui.Menu;
 
 import controler.MenuControler;
+import controler.PosFileControler;
 import model.Drink;
 import model.Food;
 import model.PosData;
@@ -75,7 +76,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		// this setup
 		setData(data);
-		setCurrentTable(-1);
+		//setCurrentTable(-1);
 		setCurrentFood(0);
 		setCurrentDrink(0);
 		
@@ -152,6 +153,39 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			//
 		}
 		//
+		
+		for(int i = 0; i < getData().getMenuList().size(); i++)
+		{
+			if(getData().getMenuList().get(i) instanceof Food)
+			{
+				Food food = (Food)getData().getMenuList().get(i);
+				
+				JButton foodButton = new JButton(food.getName());
+				
+				lineBorder = new LineBorder(Color.BLACK, 3);
+				foodButton.setBackground(Color.WHITE);
+				foodButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+				//foodListButton[i].setBorder(lineBorder);
+				foodButton.addActionListener(this);
+				
+				foodListButton.add(foodButton);
+			}
+			else
+			{
+				Drink drink = (Drink)getData().getMenuList().get(i);
+				
+				JButton drinkButton = new JButton(drink.getName());
+				
+				lineBorder = new LineBorder(Color.BLACK, 3);
+				drinkButton.setBackground(Color.WHITE);
+				drinkButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+				//foodListButton[i].setBorder(lineBorder);
+				drinkButton.addActionListener(this);
+				
+				drinkListButton.add(drinkButton);
+			}
+		}
+		
 		
 		
 		// tableMenuListPanel setup
@@ -330,6 +364,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			showFoodList();
 			
 			repaint();
+			
+			// ÀúÀå 
+			PosFileControler posFileControler = new PosFileControler(getData());
+			posFileControler.writeToFile();
 		}
 		if(e.getSource() == delDrinkButton)
 		{
@@ -357,6 +395,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			showDrinkList();
 			
 			repaint();
+			
+			// ÀúÀå 
+			PosFileControler posFileControler = new PosFileControler(getData());
+			posFileControler.writeToFile();
 		}
 		
 		for(int i = 0; i < foodListButton.size(); i++)
@@ -471,6 +513,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			
 			showDrinkList();
 		}
+		
+		// ÀúÀå 
+		PosFileControler posFileControler = new PosFileControler(getData());
+		posFileControler.writeToFile();
 		
 		menuAddPage.dispose();
 	}
