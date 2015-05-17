@@ -2,13 +2,16 @@ package test;
 
 import java.util.Date;
 
+import GUI.TableCalculatePage;
+import GUI.TotalCalculatePage;
+import model.PosData;
+
 
 
 public class TestMain {
 
 	public static void main(String[] args)
 	{
-		Date nowDate = new Date();
-		System.out.println(nowDate);
+		TotalCalculatePage t = new TotalCalculatePage();
 	}
 }

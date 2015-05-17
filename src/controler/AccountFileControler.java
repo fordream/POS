@@ -29,7 +29,7 @@ public class AccountFileControler  {
 	{
 		try
 		{
-			FileInputStream fin = new FileInputStream("posdatafile.dat");
+			FileInputStream fin = new FileInputStream("accountfile.dat");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			
 			AccountData temp = (AccountData)oin.readObject();
@@ -57,7 +57,7 @@ public class AccountFileControler  {
 	{
 		try
 		{
-			FileOutputStream fout = new FileOutputStream("posdatafile.dat");
+			FileOutputStream fout = new FileOutputStream("accountfile.dat");
 			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			
 			oout.writeObject(getAccountData());

@@ -17,6 +17,7 @@ import controler.AccountFileControler;
 
 public class TableCalculatePage extends SimpleJFrame implements ActionListener{
 	
+	private JLabel pageNameField;
 	private JTextField orderTextField;
 	private LineBorder lineBorder;
 	private JLabel totalLabel;
@@ -40,22 +41,31 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener{
 		
 		setData(data);
 		
+		// show the total price in the table
+		pageNameField = new JLabel();
+		pageNameField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 26));
+		pageNameField.setForeground(Color.BLACK);
+		pageNameField.setText("ÀÚ¸® °è»ê");
+		pageNameField.setVisible(true);
+		this.add(pageNameField).setBounds(50, 20, 200, 30);
+				
+				
 		// show the orderlist in the table for the index
 		orderTextField = new JTextField();
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		orderTextField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
 		orderTextField.setBorder(lineBorder);
 		orderTextField.enable(false);
-		this.add(orderTextField).setBounds(50, 50, 280, 400);
+		this.add(orderTextField).setBounds(50, 70, 280, 400);
 		
 		
 		// show the total price in the table
 		totalLabel = new JLabel();
 		totalLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
 		totalLabel.setForeground(Color.RED);
-		totalLabel.setText("Total : " + data.getTableList().get(index).getTotalPrice() + " ¿ø");
+		totalLabel.setText("Total : " + " ¿ø");
 		totalLabel.setVisible(true);
-		this.add(totalLabel).setBounds(370, 100, 200, 50);
+		this.add(totalLabel).setBounds(370, 120, 200, 50);
 		
 		
 		// show buttons
@@ -65,7 +75,7 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener{
 		calculateButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
 		calculateButton.setBorder(lineBorder);
 		//calculateButton.addActionListener(this);
-		this.add(calculateButton).setBounds(370, 250, 270, 40);
+		this.add(calculateButton).setBounds(370, 270, 270, 40);
 		
 		escapeButton = new JButton("Å»  ÁÖ");
 		lineBorder = new LineBorder(Color.BLACK, 3);
@@ -73,7 +83,7 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener{
 		escapeButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
 		escapeButton.setBorder(lineBorder);
 		//calculateButton.addActionListener(this);
-		this.add(escapeButton).setBounds(370, 330, 270, 40);
+		this.add(escapeButton).setBounds(370, 350, 270, 40);
 		
 		cancelButton = new JButton("Ãë  ¼Ò");
 		lineBorder = new LineBorder(Color.BLACK, 3);
@@ -81,7 +91,7 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener{
 		cancelButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
 		cancelButton.setBorder(lineBorder);
 		cancelButton.addActionListener(this);
-		this.add(cancelButton).setBounds(370, 410, 270, 40);
+		this.add(cancelButton).setBounds(370, 430, 270, 40);
 	}
 
 	@Override
