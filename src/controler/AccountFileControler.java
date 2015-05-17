@@ -1,7 +1,5 @@
 package controler;
 
-public class AccountFileControler extends FileControler {
-
 import model.Pdata;
 
 public class AccountFileControler extends FileControler {
