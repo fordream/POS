@@ -10,11 +10,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import controler.MenuControler;
+import model.Drink;
+import model.Food;
 import model.Menu;
 import model.PosData;
 
@@ -22,21 +25,27 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 
 	private PosData data;
 	
+	private int menuType; // 0 : Food, 1: Drink
+	final static int FOOD = 0;
+	final static int DRINK = 1;
+	
 	private LineBorder lineBorder;
 	
-	private JTextField menuTextFiedl;
-	private JTextField priceTextFiedl;
-	private JButton exitButton;
-	private JButton enterButton;
+	//private JTextField menuTextFiedl;
+	//private JTextField priceTextFiedl;
+	//private JButton exitButton;
+	//private JButton enterButton;
 	private JLabel nameLAbel;
 	private JLabel priceLAbel;
 	
-	public MenuAddPage(PosData data)
+	
+	public MenuAddPage(PosData data, int menuType)
 	{
 		super("MenuAddPage", 400, 300);
 		
-		setData(data);
 		
+		setData(data);
+		setMenuType(menuType);
 		
 		
 		this.setLayout(null);
@@ -62,6 +71,7 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 		//
 		
 		
+		/*
 		// menuTextFiedl setup
 		menuTextFiedl = new JTextField();
 		lineBorder = new LineBorder(Color.BLACK, 3);
@@ -102,7 +112,7 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 		exitButton.addActionListener(this);
 		this.add(exitButton).setBounds(230, 250, 80, 30);
 		//
-		
+		*/
 	}
 	public PosData getData() {
 		return data;
@@ -115,22 +125,37 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*
 		if(e.getSource() == exitButton)
 			this.dispose();
 		if(e.getSource() == enterButton)
 		{
+			
 			String newMenuName = menuTextFiedl.getText();
+			
 			int newMenuPrice = Integer.parseInt( priceTextFiedl.getText() );
 			
-			Menu newMenu = new Menu(newMenuName, newMenuPrice);
+			if(getMenuType() == FOOD)
+			{
+				Food food = new Food(newMenuName, newMenuPrice);
+				
+				MenuControler MCon = new MenuControler( getData() );
+				MCon.addMenu( food );
+				setData( MCon.getData() );
+			}
+			else if(getMenuType() == DRINK)
+			{
+				Drink drink = new Drink(newMenuName, newMenuPrice);
+				
+				MenuControler MCon = new MenuControler( getData() );
+				MCon.addMenu( drink );
+				setData( MCon.getData() );
+			}
 			
-			MenuControler MCon = new MenuControler( getData() );
-			MCon.addMenu( newMenu );
-			setData( MCon.getData() );
 			
 			this.dispose();
 		}
-		
+		*/
 	}
 
 
@@ -153,5 +178,13 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public int getMenuType() {
+		return menuType;
+	}
+	public void setMenuType(int menuType) {
+		this.menuType = menuType;
+	}
 
+	
 }
