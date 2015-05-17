@@ -4,11 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+
 
 import model.Account;
 import model.AccountData;
-import model.PosData;
+
 
 
 
@@ -16,9 +16,12 @@ public class AccountFileControler  {
 
 	private AccountData accountData;
 	
-	public AccountFileControler(AccountData accountData) {
-		
-		setAccountData(accountData);
+	public AccountFileControler(Account account) {
+		AccountData temp;
+		readFromFile();
+		temp = getAccountData();
+		temp.getAccountData().add(account);
+		setAccountData(temp);
 	}
 
 

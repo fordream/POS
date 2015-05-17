@@ -2,16 +2,17 @@ package controler;
 
 public class PasswordControler {
 
+	
 	public PasswordControler() 
 	{
 
 	}
 
-	public boolean checkPassword(String password)
+	public boolean checkPassword(String Mypassword,String _inputPassword)
 	{
 		try
-		{			
-			if( password.equals("wwwrev") )
+		{
+			if(Mypassword.compareTo(_inputPassword) == 0)
 				return true;
 			else
 				return false;
