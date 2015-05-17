@@ -35,7 +35,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.tableNum = tableNum;
 	}
 	
-	TableListPanel(PosData data)
+	public TableListPanel(PosData data)
 	{
 		setData(data);
 		Table = new JButton[24];
@@ -47,6 +47,10 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.setBackground(Color.WHITE);
 		this.setBounds(10, 10, 780, 620);
 		printTableList(getTableNum());
+		
+		
+		for(int i = 0; i < getData().getTableList().size(); i++)
+			System.out.println("Table Number " + i + " : " + getData().getTableList().get(i).getTableNumber());
 		
 	}
 	
@@ -84,12 +88,8 @@ public class TableListPanel extends JPanel implements ActionListener
 		}
 		else
 		{
-			
-			
-			
 			tableNum++;
-			
-			Table newTable = new Table(tableNum);
+			Table newTable = new Table(tableNum-1);
 			TableControler Tcon = new TableControler(data);
 			Tcon.addTable(newTable);
 			
@@ -103,6 +103,7 @@ public class TableListPanel extends JPanel implements ActionListener
 			printTable(i,j);
 			this.repaint();
 		}
+		
 	}
 	
 	public void delTableList()
@@ -114,12 +115,12 @@ public class TableListPanel extends JPanel implements ActionListener
 		else
 		{
 			tableNum--;
-			
 			Table newTable = new Table(tableNum);
 			TableControler Tcon = new TableControler(data);
 			Tcon.deleteTable(newTable);
 			this.remove(Table[tableNum]);
 			this.repaint();
+			
 		}
 	}
 
@@ -130,7 +131,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		{
 			if(e.getSource()  == Table[i])
 			{
-				System.out.println("Table["+(i+1)+"]"+data.getTableList().get(i).getOrderList());
+				System.out.println("Table["+(i)+"]"+data.getTableList().get(i).getOrderList());
 			}
 		}
 		

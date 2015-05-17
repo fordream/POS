@@ -15,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import controler.PosFileControler;
 import model.PosData;
+import model.Table;
 
 public class POSPage extends SimpleJFrame implements ActionListener, KeyListener, FocusListener{
 
@@ -31,12 +33,30 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	private MenuInnerPanel menuInnerPanel;
 
 	
+	public PosData getData() {
+		return data;
+	}
+
+	public void setData(PosData data) {
+		this.data = data;
+	}
+
 	public POSPage() 
 	{
 		super("POSMainPage", 1400, 800);
-		
 		data = new PosData();
 		
+		
+		//// read File PosData
+		PosFileControler posFileControler = new PosFileControler(getData());
+		posFileControler.readFromFile();
+		setData(posFileControler.getData());
+		
+		
+		
+		
+		
+		/////
 		// this setup
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.getRootPane().setBorder(lineBorder);
@@ -72,13 +92,14 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		
 		
 		// table panel setup
-		tableInnerPanel = new TableInnerPanel(data);
+		tableInnerPanel = new TableInnerPanel(getData());
 		this.add(tableInnerPanel);
+		
 		//
 		
 
 		// menu panel setup
-		menuInnerPanel = new MenuInnerPanel(data);
+		menuInnerPanel = new MenuInnerPanel(getData());
 		this.add(menuInnerPanel);
 		//
 
@@ -91,7 +112,12 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		if(e.getSource() == exitButton)
 		{
 			System.out.println("before dispose, please save all the data into the file!");
-
+			
+			
+			PosFileControler posFileControler = new PosFileControler(getData());
+			posFileControler.writeToFile();
+			
+			
 			this.dispose();
 		}
 	}

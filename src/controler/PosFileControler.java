@@ -23,19 +23,20 @@ public class PosFileControler   {
 	{
 		try
 		{
-			FileInputStream fin = new FileInputStream("posdatafile.dat");
+			FileInputStream fin = new FileInputStream("datafile.dat");
 			ObjectInputStream oin = new ObjectInputStream(fin);
 			
 			PosData temp = (PosData)oin.readObject();
 			
 			setData(temp);
 			
+
 			oin.close();
 			fin.close();
 		}
 		catch(Exception exception)
 		{
-			System.out.println("cannot open the file!");
+			System.out.println("cannot open and read the file!");
 		}
 		finally
 		{
@@ -55,27 +56,27 @@ public class PosFileControler   {
 	{
 		try
 		{
-			FileOutputStream fout = new FileOutputStream("posdatafile.dat");
+			FileOutputStream fout = new FileOutputStream("datafile.dat");
 			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			
 			oout.writeObject(getData());
-			
+
 			oout.close();
 			fout.close();
 		}
 		catch(Exception exception)
 		{
-			System.out.println("cannot open the file!");
+			System.out.println("cannot open and write the file!");
 		}
 		finally
 		{
 			for(int i = 0; i < getData().getMenuList().size(); i++)
 			{
-				System.out.println("read string :" + getData().getMenuList().get(i));
+				System.out.println("write string :" + getData().getMenuList().get(i));
 			}
 			for(int i = 0; i < getData().getTableList().size(); i++)
 			{
-				System.out.println("read string :" + getData().getTableList().get(i));
+				System.out.println("write string :" + getData().getTableList().get(i));
 			}
 		}
 	}

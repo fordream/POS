@@ -1,8 +1,17 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Account {
+public class Account implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 121239531072292830L;
+	/**
+	 * 
+	 */
+	
 	private Date date;
 	private Table nowTable;
 	
