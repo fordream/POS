@@ -34,8 +34,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.setBackground(Color.WHITE);
 		this.setBounds(10, 10, 780, 620);
 		printTableList(getTableNum());
-	
-
+		
 	}
 	public void printTableList(int TableNum)
 	{

@@ -25,12 +25,11 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	private JButton exitButton;
 	private JButton addTableButton;
 	private JButton deleteTableButton;
-	
-<<<<<<< HEAD
+
 	TableInnerPanel tableInnerPanel;
-=======
+
 	private MenuInnerPanel menuInnerPanel;
->>>>>>> ac41592f74725a028feb3bfb49a0ab1523c5aafa
+
 	
 	public POSPage() 
 	{
@@ -48,6 +47,7 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		this.add(logoLabel).setBounds(30, 10, 120, 60);
 		//
 		
+		
 		// posMainLabel label setup
 		posMainLabel = new JLabel();
 		posMainLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
@@ -55,37 +55,14 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		posMainLabel.setText("Computer Science & Engineering POS");
 		posMainLabel.setVisible(true);
 		this.add(posMainLabel).setBounds(150, 30, 400, 50);
-		//
-		
-		// tablePanel setup
-		/*tablePanel = new JPanel();
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		tablePanel.setBorder(lineBorder);
-		tablePanel.setBackground(Color.WHITE);
-<<<<<<< HEAD
-		this.add(tablePanel).setBounds(30, 80, 800, 650);*/
+
 		tableInnerPanel = new TableInnerPanel();
 		this.add(tableInnerPanel);
-=======
-		this.add(tablePanel).setBounds(30, 80, 800, 680);
->>>>>>> ac41592f74725a028feb3bfb49a0ab1523c5aafa
-		//
+
+		
+
 		
 		
-		// menuPanel setup
-		/*menuPanel = new JPanel();
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		menuPanel.setBorder(lineBorder);
-		menuPanel.setBackground(Color.WHITE);
-<<<<<<< HEAD
-		add(menuPanel).setBounds(860, 80, 500, 680);
-=======
-		add(menuPanel).setBounds(860, 80, 500, 680);*/
->>>>>>> ac41592f74725a028feb3bfb49a0ab1523c5aafa
-		//
-		
-		
-		// exitButton setup
 		exitButton = new JButton(" Á¾ ·á ");
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		exitButton.setBackground(Color.WHITE);
@@ -93,13 +70,11 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		exitButton.setBorder(lineBorder);
 		exitButton.addActionListener(this);
 		this.add(exitButton).setBounds(1280, 30, 80, 30);
-		//
+	
 		
-		
-		// menuInnerPanel setup
 		menuInnerPanel = new MenuInnerPanel();
 		this.add(menuInnerPanel);
-		//
+		
 		
 		
 		//  setup
