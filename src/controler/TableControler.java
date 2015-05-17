@@ -32,7 +32,7 @@ public class TableControler {
 	{
 		try
 		{
-			int index = searchTable(keyTable);
+			int index = this.searchTable(keyTable);
 			
 			getData().getTableList().remove(index);
 		}

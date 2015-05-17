@@ -1,11 +1,16 @@
 package model;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.xml.crypto.Data;
 
 
-public class Table {
+public class Table implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5770272354422577026L;
 	private ArrayList<Menu> orderList;
 	private int tableNumber;
 	private int color;

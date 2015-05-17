@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import controler.PosFileControler;
 import model.PosData;
 
 public class TableInnerPanel extends JPanel implements ActionListener{
@@ -41,13 +42,14 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 	public TableInnerPanel(PosData data) {
 		
 		setData(data);
+		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
 		this.setBorder(lineBorder);
 		this.setBackground(Color.WHITE);
 		this.setBounds(30, 80, 800, 680);
 		
-		tableListPanel = new TableListPanel(data);
+		tableListPanel = new TableListPanel(getData());
 		this.add(tableListPanel);
 		
 		
@@ -85,11 +87,22 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 			System.out.println("addTable button clicked");
 			tableListPanel.addTableList();
 			
+			setData(tableListPanel.getData());
+			PosFileControler posFileControler = new PosFileControler(getData());
+			posFileControler.writeToFile();
+			
+			
+			
 		}
 		else if(e.getSource() == delButton)
 		{
 			System.out.println("delTable button clicked");
 			tableListPanel.delTableList();
+			
+			setData(tableListPanel.getData());
+			PosFileControler posFileControler = new PosFileControler(getData());
+			posFileControler.writeToFile();
+			
 		}
 		// TODO Auto-generated method stub
 		

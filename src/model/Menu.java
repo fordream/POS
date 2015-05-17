@@ -1,6 +1,12 @@
 package model;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9140534453939961687L;
 	private String name;
 	private int price;
 	private int count;
