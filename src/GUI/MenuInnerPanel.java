@@ -41,13 +41,20 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private JButton[] drinkListButton;
 	
 	
+	private TableCalculate tableCalculate;
+	
+	
 	private PosData data;
+	private int currentTable;
 	
 	
 	public MenuInnerPanel(PosData data)
 	{
+		
 		// this setup
 		setData(data);
+		setCurrentTable(-1);
+		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
 		this.setBorder(lineBorder);
@@ -237,6 +244,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		{
 			MenuAddPage menuAddPage = new MenuAddPage( getData() );
 		}
+		else if(e.getSource() == calcTableButton)
+		{
+			tableCalculate = new TableCalculate( getData(), getCurrentTable() );
+		}
 	}
 
 	@Override
@@ -286,6 +297,16 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 
 	public void setData(PosData data) {
 		this.data = data;
+	}
+
+
+	public int getCurrentTable() {
+		return currentTable;
+	}
+
+
+	public void setCurrentTable(int currentTable) {
+		this.currentTable = currentTable;
 	}
 	
 }
