@@ -18,11 +18,12 @@ public class TableListPanel extends JPanel implements ActionListener
 {
 
 	private LineBorder lineBorder;
-	private JButton[] Table;
+	private JButton[] table;
 	private int tableNum;
 	private PosData data;
+	private MenuInnerPanel menuInnerPanel;
 	
-	
+
 	public PosData getData() {
 		return data;
 	}
@@ -36,11 +37,13 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.tableNum = tableNum;
 	}
 	
-	public TableListPanel(PosData data)
+	
+	public TableListPanel(PosData data, MenuInnerPanel menuInnerPanel)
 	{
 		setData(data);
-	
-		Table = new JButton[24];
+		this.menuInnerPanel = menuInnerPanel;
+		
+		table = new JButton[24];
 		setTableNum(getData().getTableList().size());
 		
 		lineBorder = new LineBorder(Color.BLACK, 3);
@@ -52,15 +55,15 @@ public class TableListPanel extends JPanel implements ActionListener
 		
 		
 		for(int i = 0; i < getData().getTableList().size(); i++)
-			System.out.println("Table Number " + i + " : " + getData().getTableList().get(i).getTableNumber());
+			System.out.println("table Number " + i + " : " + getData().getTableList().get(i).getTableNumber());
 		
 	}
 	
 
-	public void printTableList(int TableNum)
+	public void printTableList(int tableNum)
 	{
 		int j = 0;
-		for(int i= 0;i+j*6<TableNum; i++ )
+		for(int i= 0;i+j*6<tableNum; i++ )
 		{
 			if(i%6 == 0&& i !=0)
 			{
@@ -73,13 +76,13 @@ public class TableListPanel extends JPanel implements ActionListener
 	
 	public void printTable(int i,int j)
 	{	
-		Table[i+j*6] = new JButton("<html>"+"<p align = center>" + (i + j * 6 + 1)+"</p>" +"<br>±Ý¾×: " + (double)getData().getTableList().get(i+j*6).getTotalPrice() /10000 + "</html>");
-		Table[i+j*6].setLayout(null);
-		Table[i+j*6].setBackground(Color.WHITE);
-		Table[i+j*6].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 17));
-		Table[i+j*6].setBorder(lineBorder);
-		Table[i+j*6].addActionListener(this);
-		this.add(Table[i+j*6]).setBounds(10 + i*128, 10+j*150, 120, 120);
+		table[i+j*6] = new JButton("<html>"+"<p align = center>" + (i + j * 6 + 1)+"</p>" +"<br>±Ý¾×: " + (double)getData().getTableList().get(i+j*6).getTotalPrice() /10000 + "</html>");
+		table[i+j*6].setLayout(null);
+		table[i+j*6].setBackground(Color.WHITE);
+		table[i+j*6].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 17));
+		table[i+j*6].setBorder(lineBorder);
+		table[i+j*6].addActionListener(this);
+		this.add(table[i+j*6]).setBounds(10 + i*128, 10+j*150, 120, 120);
 
 	}
 
@@ -87,14 +90,14 @@ public class TableListPanel extends JPanel implements ActionListener
 	{
 		if(tableNum >= 24)
 		{
-			System.out.println("Table is full");
+			System.out.println("table is full");
 		}
 		else
 		{
 			tableNum++;
-			Table newTable = new Table(tableNum-1);
+			Table newtable = new Table(tableNum-1);
 			TableControler Tcon = new TableControler(data);
-			Tcon.addTable(newTable);
+			Tcon.addTable(newtable);
 			
 			int i=0,j=0;
 			for(i = tableNum;i >6;i -=6)
@@ -113,15 +116,15 @@ public class TableListPanel extends JPanel implements ActionListener
 	{
 		if(tableNum<=0)
 		{
-			System.out.println("Table is empty");
+			System.out.println("table is empty");
 		}
 		else
 		{
 			tableNum--;
-			Table newTable = new Table(tableNum);
+			Table newtable = new Table(tableNum);
 			TableControler Tcon = new TableControler(data);
-			Tcon.deleteTable(newTable);
-			this.remove(Table[tableNum]);
+			Tcon.deleteTable(newtable);
+			this.remove(table[tableNum]);
 			this.repaint();
 			
 		}
@@ -130,15 +133,17 @@ public class TableListPanel extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		for(int i = 0;i<tableNum;i++)
+		for(int i = 0;i < tableNum;i++)
 		{
-			if(e.getSource()  == Table[i])
+			if(e.getSource()  == table[i])
 			{
-				System.out.println("Table["+(i)+"]"+data.getTableList().get(i).getOrderList());
-				getData().setCurrentTable(i);
+				table[Table.getSelectedTable()].setBorder(lineBorder);
+				table[Table.getSelectedTable()].setBackground(Color.WHITE);
+				Table.setSelectedTable(i);
+				table[i].setBackground(new Color(200, 200, 200));
+				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());
 				
-				
-				
+				menuInnerPanel.showTableMenuList();
 			}
 		}
 		

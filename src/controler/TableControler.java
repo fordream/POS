@@ -48,9 +48,10 @@ public class TableControler {
 	{
 		try
 		{
-			int tableIndex = searchTable(myTable);
+			int tableIndex = Table.getSelectedTable();
 			int menuIndex = searchOrderedMenu(tableIndex, order);
 			
+			System.out.println("Table Index: " + tableIndex + " " + "Menu Index: " + menuIndex);
 			if( menuIndex == -1 )
 			{
 				getData().getTableList().get(tableIndex).getOrderList().add(order);

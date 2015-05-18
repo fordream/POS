@@ -15,6 +15,18 @@ public class Table implements Serializable{
 	private int tableNumber;
 	private int color;
 	private int totalPrice;
+	private static int selectedTable; // 현재 선택된 테이블
+	
+	
+	public static int getSelectedTable()
+	{
+		return selectedTable;
+	}
+	
+	public static void setSelectedTable(int data)
+	{
+		selectedTable = data;
+	}
 	
 	/**
 	 * 제대로 계산을 끝냈으면 true, 튀었으면 false

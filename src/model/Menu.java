@@ -48,7 +48,7 @@ public class Menu implements Serializable{
 	
 	public void addQuantity()
 	{
-		setCount(getCount() + 1);
+		count++;
 	}
 	
 	public void subQuantity()
