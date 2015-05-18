@@ -48,16 +48,17 @@ public class TableControler {
 	{
 		try
 		{
-			int tableIndex = searchTable(myTable);
+			int tableIndex = Table.getSelectedTable();
 			int menuIndex = searchOrderedMenu(tableIndex, order);
 			
+			System.out.println("Table Index: " + tableIndex + " " + "Menu Index: " + menuIndex);
 			if( menuIndex == -1 )
 			{
-				getData().getMenuList().add(order);
+				getData().getTableList().get(tableIndex).getOrderList().add(order);
 			}
 			else
 			{
-				getData().getMenuList().get(menuIndex).addQuantity();
+				getData().getTableList().get(tableIndex).getOrderList().get(menuIndex).addQuantity();
 			}
 			
 			getData().getTableList().get(tableIndex).setTotalPrice( calculate( getData().getTableList().get(tableIndex) ) );
@@ -215,8 +216,6 @@ public class TableControler {
 		
 		return sumOfTotal;
 	}
-	
-
 	public PosData getData() {
 		return data;
 	}
@@ -224,6 +223,4 @@ public class TableControler {
 	public void setData(PosData data) {
 		this.data = data;
 	}
-	
-	
 }

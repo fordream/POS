@@ -115,6 +115,29 @@ public class MenuControler {
 			
 		return index;
 	}
+	
+	/**
+	 * if there exists such menu then return the index of the menu<br>
+	 * otherwise, return negative value(-1)
+	 * 
+	 * @return index
+	 */
+	public int searchMenu(String nameOfMenu)
+	{
+		int index = -1;
+		System.out.println("Start Search Menu");
+		for(int i = 0; i < getData().getMenuList().size(); i++)
+		{
+			if( getData().getMenuList().get(i).getName().equals( nameOfMenu ))
+			{
+				System.out.println("" + getData().getMenuList().get(i).getName() +  " " + getData().getMenuList().get(i).getCount());
+				index = i;
+				break;
+			}
+		}
+			
+		return index;
+	}
 
 	public PosData getData() {
 		return data;

@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import controler.MenuControler;
 import controler.PosFileControler;
+import controler.TableControler;
 import model.Drink;
 import model.Food;
 import model.PosData;
@@ -46,9 +47,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private JButton calcTableButton;
 	private JButton calcAllButton;
 	
-	private ArrayList<JButton> foodListButton;
-	private ArrayList<JButton> drinkListButton;
+	private ArrayList<MenuButton> foodListButton;
+	private ArrayList<MenuButton> drinkListButton;
 	private ArrayList<JButton> orderListButton;
+	
 	// for MenuAddPage
 	private JTextField menuTextField;
 	private JTextField priceTextField;
@@ -63,12 +65,18 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private TableCalculatePage tableCalculate;
 	private MenuAddPage menuAddPage;
 	
+	private TableControler tableControler;
+	private MenuControler menuControler;
+	
 	private PosData data;
 	private int currentTable;
 	private int currentFood;
 	private int currentDrink;
 	private String currentFoodName;
 	private String currentDrinkName;
+	private String currentOrderName;
+	private int currentMenuType;
+	
 	
 	
 	public MenuInnerPanel(PosData data)
@@ -79,9 +87,14 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		//setCurrentTable(-1);
 		setCurrentFood(0);
 		setCurrentDrink(0);
+		setCurrentMenuType(-1);
 		
-		foodListButton = new ArrayList<JButton>();
-		drinkListButton = new ArrayList<JButton>();
+		tableControler = new TableControler(getData());
+		menuControler = new MenuControler(getData());
+		
+		foodListButton = new ArrayList<MenuButton>();
+		drinkListButton = new ArrayList<MenuButton>();
+		orderListButton = new ArrayList<JButton>();
 		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
@@ -160,7 +173,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			{
 				Food food = (Food)getData().getMenuList().get(i);
 				
-				JButton foodButton = new JButton(food.getName());
+				MenuButton foodButton = new MenuButton(food.getName() + " " + food.getPrice() + "¿ø");
 				
 				lineBorder = new LineBorder(Color.BLACK, 3);
 				foodButton.setBackground(Color.WHITE);
@@ -174,7 +187,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			{
 				Drink drink = (Drink)getData().getMenuList().get(i);
 				
-				JButton drinkButton = new JButton(drink.getName());
+				MenuButton drinkButton = new MenuButton(drink.getName() + " " + drink.getPrice() + "¿ø");
 				
 				lineBorder = new LineBorder(Color.BLACK, 3);
 				drinkButton.setBackground(Color.WHITE);
@@ -269,60 +282,9 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		showFoodList();
 		showDrinkList();
-		showOrderList();
 	}
 	
 	// ÁÖ¹® ³»¿ª À» º¸¿©ÁÖ´Â ÇÔ¼ö 
-	public void showOrderList()
-	{
-		
-		if(getData().getCurrentTable() != -1 && getData().getCurrentTable() < getData().getTableList().size())
-		{
-			
-			int j = getCurrentFood();
-			Table table = getData().getTableList().get(getData().getCurrentTable());
-
-			JButton tableNumButton = new JButton((getData().getCurrentTable()+1)+"");
-			lineBorder = new LineBorder(Color.BLACK, 3);
-			tableNumButton.setBackground(Color.WHITE);
-			tableNumButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
-			tableMenuListPanel.add( tableNumButton).setBounds(0, 0, 0, 0);
-			tableMenuListPanel.removeAll();
-			tableMenuListPanel.add( tableNumButton).setBounds(3, 3, 194, 27);
-			
-			for(int i = 0; i<table.getOrderList().size();i++ )
-			{
-				Menu order = Menu(table.getOrderList().get(i).getName(),table.getOrderList().get(i).getPrice());
-				JButton orderButton = new JButton(order.getName());
-				lineBorder = new LineBorder(Color.BLACK, 3);
-				orderButton.setBackground(Color.WHITE);
-				orderButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
-				orderButton.addActionListener(this);
-				orderListButton.add(orderButton);
-			}
-			
-
-	
-			for(int i = 0; i <table.getOrderList().size(); i++)
-			{
-				tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, 30 + (i * 27), 194, 27);
-			}
-			
-			
-		}
-		
-		else
-		{
-			int j = getCurrentFood();
-			JButton tableNumButton = new JButton("empty");
-			lineBorder = new LineBorder(Color.BLACK, 3);
-			tableNumButton.setBackground(Color.WHITE);
-			tableNumButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
-			
-			tableMenuListPanel.add( tableNumButton ).setBounds(3, 3, 194, 27);
-
-		}
-	}
 
 	
 	
@@ -378,6 +340,8 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		
+		
 		// TODO Auto-generated method stub
 		if(e.getSource() == addFoodButton)
 		{
@@ -389,7 +353,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		}
 		else if(e.getSource() == calcTableButton)
 		{
-			tableCalculate = new TableCalculatePage( getData(), getCurrentTable() );
+			tableCalculate = new TableCalculatePage( getData(), Table.getSelectedTable() );
 		}
 		else if(e.getSource() == enterButton)
 		{
@@ -469,16 +433,77 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		{
 			if(e.getSource() == foodListButton.get(i) )
 			{
-				setCurrentFoodName(foodListButton.get(i).getText());
+				setCurrentFoodName(foodListButton.get(i).getMenuName());
+				setCurrentMenuType(0);
 			}
 		}
 		for(int i = 0; i < drinkListButton.size(); i++)
 		{
 			if(e.getSource() == drinkListButton.get(i) )
 			{
-				setCurrentDrinkName(drinkListButton.get(i).getText());
+				setCurrentDrinkName(drinkListButton.get(i).getMenuName());
+				setCurrentMenuType(1);
 			}
 		}
+		
+		
+		
+		
+		///// Âù¿µ º¯°æ ¿À´õ¸®½ºÆ® Ãß°¡ ±â´É 
+		/*
+		addMenuToListButton;
+		subMenuFromListButton;
+		delMenuFromListButton;
+		resetMenuFromListButton;
+		*/
+		
+
+		if(e.getSource()  == addMenuToListButton)
+		{
+			
+			System.out.println("" + Table.getSelectedTable() + " " + getCurrentMenuType());
+			if(getCurrentMenuType() == FOOD)
+			{
+				Table table = getData().getTableList().get(Table.getSelectedTable());
+				Food food = new Food(getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getName(), getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+				
+				tableControler.addOrder(table, food);
+			}
+			else if(getCurrentMenuType() == DRINK)
+			{
+				Table table = getData().getTableList().get(Table.getSelectedTable());
+				Drink drink = new Drink(getData().getMenuList().get(menuControler.searchMenu(getCurrentDrinkName())).getName(), getData().getMenuList().get(menuControler.searchMenu(getCurrentDrinkName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+				
+				tableControler.addOrder(table, drink);
+			}
+
+			for(int i = 0; i < getData().getTableList().size(); i++)
+			{
+				System.out.println(i + " : " );
+				for(int j = 0; j < getData().getTableList().get(i).getOrderList().size(); j++)
+				{
+					System.out.println(getData().getTableList().get(i).getOrderList().get(j).getName() + "  " + getData().getTableList().get(i).getOrderList().get(j).getCount()  + "  " + getData().getTableList().get(i).getTotalPrice());
+				}
+			}
+			setData(tableControler.getData());
+			showTableMenuList();
+		}
+		if(e.getSource()  == subMenuFromListButton)
+		{
+			
+		}
+		if(e.getSource()  == delMenuFromListButton)
+		{
+			
+		}
+		if(e.getSource()  == resetMenuFromListButton)
+		{
+			
+		}
+		
+			
+	
+		
 	}
 
 	
@@ -543,7 +568,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			MCon.addMenu( food );
 			setData( MCon.getData() );
 			
-			JButton foodButton = new JButton(food.getName());
+			MenuButton foodButton = new MenuButton(food.getName() + "  " + food.getPrice() + "¿ø");
 			
 			lineBorder = new LineBorder(Color.BLACK, 3);
 			foodButton.setBackground(Color.WHITE);
@@ -564,7 +589,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			setData( MCon.getData() );
 			
 			
-			JButton drinkButton = new JButton(drink.getName());
+			MenuButton drinkButton = new MenuButton(drink.getName() + "  " + drink.getPrice() + "¿ø");
 			
 			lineBorder = new LineBorder(Color.BLACK, 3);
 			drinkButton.setBackground(Color.WHITE);
@@ -669,6 +694,37 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		setMenuType(DRINK);
 	}
 	
+
+	public void showTableMenuList()
+	{
+		int j = getCurrentFood();
+		
+		Menu menu = null;
+		
+		orderListButton.clear();
+		
+		tableMenuListPanel.removeAll();
+		
+		for(int i = 0; i < getData().getTableList().get(Table.getSelectedTable()).getOrderList().size(); i++)
+		{
+			menu = getData().getTableList().get(Table.getSelectedTable()).getOrderList().get(i);
+			JButton menuButton = new JButton(menu.getName() + "  " + menu.getCount() + "°³");
+			
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			menuButton.setBackground(Color.WHITE);
+			menuButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+			//foodListButton[i].setBorder(lineBorder);
+			menuButton.addActionListener(this);
+			
+			orderListButton.add(menuButton);
+		}
+		
+		for(int i = 0; i < orderListButton.size(); i++)
+		{
+			tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, (i * 27), 194, 27);
+		}
+	}
+	
 	public void showFoodList()
 	{	
 		//foodListButton = new JButton[10];
@@ -676,6 +732,8 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		int j = getCurrentFood();
 		
 		Food food = null;
+		
+		foodListButton.clear();
 		
 		foodListPanel.removeAll();
 		
@@ -687,6 +745,25 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		// delFoodButton setup setup
 		foodListPanel.add(delFoodButton).setBounds(147, 0, 53, 30);
 		//
+		
+		for(int i = 0; i < getData().getMenuList().size(); i++)
+		{
+			if(getData().getMenuList().get(i) instanceof Food)
+			{
+				food = (Food)getData().getMenuList().get(i);
+				MenuButton foodButton = new MenuButton(food.getName() + "  " + food.getPrice() + "¿ø");
+				foodButton.setMenuName(food.getName());
+				foodButton.setMenuPrice(food.getPrice());
+				
+				lineBorder = new LineBorder(Color.BLACK, 3);
+				foodButton.setBackground(Color.WHITE);
+				foodButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+				//foodListButton[i].setBorder(lineBorder);
+				foodButton.addActionListener(this);
+				
+				foodListButton.add(foodButton);
+			}
+		}
 		
 		for(int i = 0; i < foodListButton.size(); i++)
 		{
@@ -700,6 +777,8 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		Drink drink = null;
 		
+		drinkListButton.clear();
+		
 		drinkListPanel.removeAll();
 		
 		// addDrinkButton setup
@@ -709,6 +788,26 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		// delDrinkButton setup
 		drinkListPanel.add(delDrinkButton).setBounds(147, 0, 53, 30);
 		//
+		
+
+		for(int i = 0; i < getData().getMenuList().size(); i++)
+		{
+			if(getData().getMenuList().get(i) instanceof Drink)
+			{
+				drink = (Drink)getData().getMenuList().get(i);
+				MenuButton drinkButton = new MenuButton(drink.getName() + "  " + drink.getPrice() + "¿ø");
+				drinkButton.setMenuName(drink.getName());
+				drinkButton.setMenuPrice(drink.getPrice());
+				
+				lineBorder = new LineBorder(Color.BLACK, 3);
+				drinkButton.setBackground(Color.WHITE);
+				drinkButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+				//foodListButton[i].setBorder(lineBorder);
+				drinkButton.addActionListener(this);
+				
+				drinkListButton.add(drinkButton);
+			}
+		}
 		
 		for(int i = 0; i < drinkListButton.size(); i++)
 		{
@@ -722,16 +821,6 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 
 	public void setData(PosData data) {
 		this.data = data;
-	}
-
-
-	public int getCurrentTable() {
-		return currentTable;
-	}
-
-
-	public void setCurrentTable(int currentTable) {
-		this.currentTable = currentTable;
 	}
 
 
@@ -753,6 +842,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	public void setCurrentDrink(int currentDrink) {
 		this.currentDrink = currentDrink;
 	}
+	
 	
 	public int getMenuType() {
 		return menuType;
@@ -777,6 +867,22 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 
 	public void setCurrentDrinkName(String currentDrinkName) {
 		this.currentDrinkName = currentDrinkName;
+	}
+
+	public String getCurrentOrderName() {
+		return currentOrderName;
+	}
+
+	public void setCurrentOrderName(String currentOrderName) {
+		this.currentOrderName = currentOrderName;
+	}
+
+	public int getCurrentMenuType() {
+		return currentMenuType;
+	}
+
+	public void setCurrentMenuType(int currentMenuType) {
+		this.currentMenuType = currentMenuType;
 	}
 	
 }
