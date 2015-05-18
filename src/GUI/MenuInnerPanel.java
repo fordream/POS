@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import controler.MenuControler;
 import controler.PosFileControler;
+import controler.TableControler;
 import model.Drink;
 import model.Food;
 import model.PosData;
@@ -69,6 +70,9 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private int currentDrink;
 	private String currentFoodName;
 	private String currentDrinkName;
+	private String currentOrderName;
+	private int currentMenuType;
+	
 	
 	
 	public MenuInnerPanel(PosData data)
@@ -79,9 +83,11 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		//setCurrentTable(-1);
 		setCurrentFood(0);
 		setCurrentDrink(0);
+		setCurrentMenuType(-1);
 		
 		foodListButton = new ArrayList<JButton>();
 		drinkListButton = new ArrayList<JButton>();
+		orderListButton = new ArrayList<JButton>();
 		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
@@ -269,60 +275,9 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		showFoodList();
 		showDrinkList();
-		showOrderList();
 	}
 	
 	// 주문 내역 을 보여주는 함수 
-	public void showOrderList()
-	{
-		
-		if(getData().getCurrentTable() != -1 && getData().getCurrentTable() < getData().getTableList().size())
-		{
-			
-			int j = getCurrentFood();
-			Table table = getData().getTableList().get(getData().getCurrentTable());
-
-			JButton tableNumButton = new JButton((getData().getCurrentTable()+1)+"");
-			lineBorder = new LineBorder(Color.BLACK, 3);
-			tableNumButton.setBackground(Color.WHITE);
-			tableNumButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-			tableMenuListPanel.add( tableNumButton).setBounds(0, 0, 0, 0);
-			tableMenuListPanel.removeAll();
-			tableMenuListPanel.add( tableNumButton).setBounds(3, 3, 194, 27);
-			
-			for(int i = 0; i<table.getOrderList().size();i++ )
-			{
-				Menu order = Menu(table.getOrderList().get(i).getName(),table.getOrderList().get(i).getPrice());
-				JButton orderButton = new JButton(order.getName());
-				lineBorder = new LineBorder(Color.BLACK, 3);
-				orderButton.setBackground(Color.WHITE);
-				orderButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-				orderButton.addActionListener(this);
-				orderListButton.add(orderButton);
-			}
-			
-
-	
-			for(int i = 0; i <table.getOrderList().size(); i++)
-			{
-				tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, 30 + (i * 27), 194, 27);
-			}
-			
-			
-		}
-		
-		else
-		{
-			int j = getCurrentFood();
-			JButton tableNumButton = new JButton("empty");
-			lineBorder = new LineBorder(Color.BLACK, 3);
-			tableNumButton.setBackground(Color.WHITE);
-			tableNumButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-			
-			tableMenuListPanel.add( tableNumButton ).setBounds(3, 3, 194, 27);
-
-		}
-	}
 
 	
 	
@@ -378,6 +333,8 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		
+		
 		// TODO Auto-generated method stub
 		if(e.getSource() == addFoodButton)
 		{
@@ -470,6 +427,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			if(e.getSource() == foodListButton.get(i) )
 			{
 				setCurrentFoodName(foodListButton.get(i).getText());
+				setCurrentMenuType(0);
 			}
 		}
 		for(int i = 0; i < drinkListButton.size(); i++)
@@ -477,8 +435,42 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			if(e.getSource() == drinkListButton.get(i) )
 			{
 				setCurrentDrinkName(drinkListButton.get(i).getText());
+				setCurrentMenuType(1);
 			}
 		}
+		
+		
+		
+		
+		///// 찬영 변경 오더리스트 추가 기능 
+		/*
+		addMenuToListButton;
+		subMenuFromListButton;
+		delMenuFromListButton;
+		resetMenuFromListButton;
+		*/
+		
+
+		if(e.getSource()  == addMenuToListButton)
+		{
+	
+		}
+		if(e.getSource()  == subMenuFromListButton)
+		{
+			
+		}
+		if(e.getSource()  == delMenuFromListButton)
+		{
+			
+		}
+		if(e.getSource()  == resetMenuFromListButton)
+		{
+			
+		}
+		
+			
+	
+		
 	}
 
 	
@@ -777,6 +769,22 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 
 	public void setCurrentDrinkName(String currentDrinkName) {
 		this.currentDrinkName = currentDrinkName;
+	}
+
+	public String getCurrentOrderName() {
+		return currentOrderName;
+	}
+
+	public void setCurrentOrderName(String currentOrderName) {
+		this.currentOrderName = currentOrderName;
+	}
+
+	public int getCurrentMenuType() {
+		return currentMenuType;
+	}
+
+	public void setCurrentMenuType(int currentMenuType) {
+		this.currentMenuType = currentMenuType;
 	}
 	
 }

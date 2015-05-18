@@ -21,7 +21,7 @@ public class TableListPanel extends JPanel implements ActionListener
 	private JButton[] Table;
 	private int tableNum;
 	private PosData data;
-	private MenuInnerPanel panel;
+	
 	
 	public PosData getData() {
 		return data;
@@ -36,10 +36,10 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.tableNum = tableNum;
 	}
 	
-	public TableListPanel(PosData data,MenuInnerPanel panel)
+	public TableListPanel(PosData data)
 	{
 		setData(data);
-		this.panel = panel;
+	
 		Table = new JButton[24];
 		setTableNum(getData().getTableList().size());
 		
@@ -56,6 +56,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		
 	}
 	
+
 	public void printTableList(int TableNum)
 	{
 		int j = 0;
@@ -135,7 +136,8 @@ public class TableListPanel extends JPanel implements ActionListener
 			{
 				System.out.println("Table["+(i)+"]"+data.getTableList().get(i).getOrderList());
 				getData().setCurrentTable(i);
-				panel.showOrderList();
+				
+				
 				
 			}
 		}

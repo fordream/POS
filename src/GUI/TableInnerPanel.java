@@ -39,7 +39,7 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 		this.tableNum = tableNum;
 	}
 
-	public TableInnerPanel(PosData data,MenuInnerPanel panel) {
+	public TableInnerPanel(PosData data) {
 		
 		setData(data);
 		
@@ -49,7 +49,8 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 		this.setBackground(Color.WHITE);
 		this.setBounds(30, 80, 800, 680);
 		
-		tableListPanel = new TableListPanel(getData(),panel);
+		tableListPanel = new TableListPanel(getData());
+		
 		this.add(tableListPanel);
 		
 		

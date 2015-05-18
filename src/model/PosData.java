@@ -12,21 +12,15 @@ public class PosData implements Serializable{
 	
 	private ArrayList<Table> tableList; 
 	private ArrayList<Menu> menuList;
-	private int currentTable;
+	
 	
 	public PosData() {
 		tableList = new ArrayList<Table>();
 		menuList = new ArrayList<Menu>();
-		currentTable = -1;
+		
 	}
 	
-	public int getCurrentTable() {
-		return currentTable;
-	}
-
-	public void setCurrentTable(int currentTable) {
-		this.currentTable = currentTable;
-	}
+	
 
 	public ArrayList<Table> getTableList() {
 		return tableList;
