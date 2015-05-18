@@ -92,8 +92,7 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		
 		
 		// table panel setup
-		tableInnerPanel = new TableInnerPanel(getData());
-		this.add(tableInnerPanel);
+		
 		
 		//
 		
@@ -101,6 +100,9 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		// menu panel setup
 		menuInnerPanel = new MenuInnerPanel(getData());
 		this.add(menuInnerPanel);
+		
+		tableInnerPanel = new TableInnerPanel(getData(),menuInnerPanel);
+		this.add(tableInnerPanel);
 		//
 
 	}

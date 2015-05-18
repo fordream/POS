@@ -18,13 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import com.sun.glass.ui.Menu;
-
 import controler.MenuControler;
 import controler.PosFileControler;
 import model.Drink;
 import model.Food;
 import model.PosData;
+import model.Table;
+import model.Menu;
 
 public class MenuInnerPanel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseWheelListener{
 
@@ -48,7 +48,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	
 	private ArrayList<JButton> foodListButton;
 	private ArrayList<JButton> drinkListButton;
-	
+	private ArrayList<JButton> orderListButton;
 	// for MenuAddPage
 	private JTextField menuTextField;
 	private JTextField priceTextField;
@@ -197,6 +197,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		//
 		
 		
+		
 		// addMenuToListButton setup
 		addMenuToListButton = new JButton(" + ");
 		lineBorder = new LineBorder(Color.BLACK, 3);
@@ -262,11 +263,74 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		this.add(calcAllButton).setBounds(280, 400, 200, 30);
 		//
 		
+		
+	
+		
+		
 		showFoodList();
 		showDrinkList();
+		showOrderList();
 	}
 	
+	// ÁÖ¹® ³»¿ª À» º¸¿©ÁÖ´Â ÇÔ¼ö 
+	public void showOrderList()
+	{
+		
+		if(getData().getCurrentTable() != -1 && getData().getCurrentTable() < getData().getTableList().size())
+		{
+			
+			int j = getCurrentFood();
+			Table table = getData().getTableList().get(getData().getCurrentTable());
+
+			JButton tableNumButton = new JButton((getData().getCurrentTable()+1)+"");
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			tableNumButton.setBackground(Color.WHITE);
+			tableNumButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+			tableMenuListPanel.add( tableNumButton).setBounds(0, 0, 0, 0);
+			tableMenuListPanel.removeAll();
+			tableMenuListPanel.add( tableNumButton).setBounds(3, 3, 194, 27);
+			
+			for(int i = 0; i<table.getOrderList().size();i++ )
+			{
+				Menu order = Menu(table.getOrderList().get(i).getName(),table.getOrderList().get(i).getPrice());
+				JButton orderButton = new JButton(order.getName());
+				lineBorder = new LineBorder(Color.BLACK, 3);
+				orderButton.setBackground(Color.WHITE);
+				orderButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+				orderButton.addActionListener(this);
+				orderListButton.add(orderButton);
+			}
+			
+
 	
+			for(int i = 0; i <table.getOrderList().size(); i++)
+			{
+				tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, 30 + (i * 27), 194, 27);
+			}
+			
+			
+		}
+		
+		else
+		{
+			int j = getCurrentFood();
+			JButton tableNumButton = new JButton("empty");
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			tableNumButton.setBackground(Color.WHITE);
+			tableNumButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+			
+			tableMenuListPanel.add( tableNumButton ).setBounds(3, 3, 194, 27);
+
+		}
+	}
+
+	
+	
+	private Menu Menu(String name, int price) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
