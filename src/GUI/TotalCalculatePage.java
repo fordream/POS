@@ -19,6 +19,7 @@ import javax.swing.border.LineBorder;
 import model.Account;
 import model.AccountData;
 import model.Menu;
+import model.Table;
 import controler.AccountFileControler;
 
 public class TotalCalculatePage extends SimpleJFrame implements ActionListener, MouseListener, MouseWheelListener {
@@ -57,83 +58,6 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		AccountFileControler accountFileControler = new AccountFileControler();
 		accountDataPack = accountFileControler.getAccountDataPack();
 		
-		totalPrice = 0;
-		escapePrice = 0;
-		todayPrice = 0;
-		
-		totalListButton = new ArrayList<MenuButton>();
-		escapeListButton = new ArrayList<MenuButton>();
-		todayListButton = new ArrayList<MenuButton>();
-		
-		menuList = new ArrayList<Menu>();
-		
-		
-
-		for(int i = 0; i < accountDataPack.getAccountDataList().size(); i++)
-		{
-			for(int j = 0; j < accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().size(); j++)
-			{
-				int isExistIndex = -1;
-				int isEscapeExistIndex = -1;
-				
-				for(int k = 0; k < menuList.size(); k++)
-					if(menuList.get(k).getName().equals(accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i)))
-					{
-						isExistIndex = k;
-						break;
-					}
-				
-				
-				if(isExistIndex == -1) // Menu not exist
-				{
-					Menu menu = new Menu(accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i).getName(),
-							accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i).getPrice());
-					menu.setCount(menu.getCount() + 1);
-					menuList.add(menu);
-				}
-				else // Menu exist
-				{
-					menuList.get(isExistIndex).setCount(menuList.get(isExistIndex).getCount() + 1);
-				}
-			}
-		}
-		
-				
-		for(int i = 0; i < accountDataPack.getAccountDataList().size(); i++)
-		{
-			for(int j = 0; j < accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().size(); j++)
-			{
-				int isExistIndex = -1;
-				
-				for(int k = 0; k < totalListButton.size(); k++)
-					if(totalListButton.get(k).getName().equals(accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i)))
-					{
-						isExistIndex = k;
-						break;
-					}
-				
-				if(isExistIndex == -1) // Menu not exist
-				{
-					MenuButton totalButton = new MenuButton(accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i).getName(),
-							accountDataPack.getAccountDataList().get(i).getNowTable().getOrderList().get(i).getPrice());
-					totalButton.addCount();
-					totalListButton.add(totalButton);
-				}
-				else
-				{
-					totalListButton.get(isExistIndex).addCount();
-				}
-			}
-			
-			
-			totalPrice +=  accountDataPack.getAccountDataList().get(i).getNowTable().getTotalPrice();
-			
-			if(accountDataPack.getAccountDataList().get(i).isEscape())
-				escapePrice +=  accountDataPack.getAccountDataList().get(i).getNowTable().getTotalPrice();
-			if(accountDataPack.getAccountDataList().get(i).getDate().getDay() == new Date().getDay() &&
-				!accountDataPack.getAccountDataList().get(i).isEscape())
-				todayPrice +=  accountDataPack.getAccountDataList().get(i).getNowTable().getTotalPrice() ;
-		}
 		// this setup
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		//
@@ -213,7 +137,6 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		////
 			
 		
-		
 		//// Pure Calculate
 		// Name Label
 		todayNameLabel = new JLabel();
@@ -246,6 +169,107 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		////
 	}
 	
+	
+	
+	public void makeButton()
+	{
+		totalPrice = 0;
+		escapePrice = 0;
+		todayPrice = 0;
+		
+		totalListButton = new ArrayList<MenuButton>();
+		escapeListButton = new ArrayList<MenuButton>();
+		todayListButton = new ArrayList<MenuButton>();
+		
+		ArrayList<Menu> totalMenuList = new ArrayList<Menu>();
+		ArrayList<Menu> escapeMenuList = new ArrayList<Menu>();
+		ArrayList<Menu> todayNetMenuList = new ArrayList<Menu>();
+		
+		ArrayList<Account> accountList = new ArrayList<Account>();
+		
+		/**
+		 * make menu lists for total, escape, today net
+		 */
+		for(int i = 0; i < accountList.size(); i++)
+		{
+			ArrayList<Menu> currentMenuList = accountList.get(i).getNowTable().getOrderList();
+			
+			for(int j = 0; j < currentMenuList.size(); j++)
+			{
+				// make total menu list
+				for(int k = 0; k < totalMenuList.size(); k++)
+				{
+					if(totalMenuList.get(k).getName() == currentMenuList.get(j).getName())
+					{
+						totalMenuList.get(k).setCount(totalMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+					}
+					else
+					{
+						totalMenuList.add( currentMenuList.get(j) );
+					}
+				}
+				
+				// make escape menu list
+				if( accountList.get(i).isEscape() ) // if escape
+				{
+					for(int k = 0; k < escapeMenuList.size(); k++)
+					{
+						if(escapeMenuList.get(k).getName() == currentMenuList.get(j).getName())
+						{
+							escapeMenuList.get(k).setCount(escapeMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+						}
+						else
+						{
+							escapeMenuList.add( currentMenuList.get(j) );
+						}
+					}
+				}
+				
+				Date now = new Date();
+				Date before12h = new Date();
+				before12h.setHours(now.getHours() - 12);
+				
+				// make today net menu list
+				if( accountList.get(i).getDate().after(before12h) ) // if 12h ago ~ now
+				{
+					if( !accountList.get(i).isEscape() ) // if not escape
+					{
+						for(int k = 0; k < todayNetMenuList.size(); k++)
+						{
+							if(todayNetMenuList.get(k).getName() == currentMenuList.get(j).getName())
+							{
+								todayNetMenuList.get(k).setCount(todayNetMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+							}
+							else
+							{
+								todayNetMenuList.add( currentMenuList.get(j) );
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		
+		
+		/**
+		 * make button-for showing the list-lists for total, escape, today net
+		 */
+		for(int i = 0; i < accountList.size(); i++)
+		{
+			// make total menu button
+				
+				
+			// make escape menu button
+				
+				
+			// make today net menu list
+		}
+	}
+	
+	
+	/* ========== Event Listener ========== */
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -259,5 +283,16 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	/* ========== Getters and Setters ========== */
+	
+	public AccountData getAccountDataPack() {
+		return accountDataPack;
+	}
+
+	public void setAccountDataPack(AccountData accountDataPack) {
+		this.accountDataPack = accountDataPack;
 	}
 }
