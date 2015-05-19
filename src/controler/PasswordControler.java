@@ -8,11 +8,11 @@ public class PasswordControler {
 
 	}
 
-	public boolean checkPassword(String password)
+	public boolean checkPassword(String password, String inputPassword)
 	{
 		try
 		{
-			if( password.equals("") )
+			if( inputPassword.equals(password) )
 				return true;
 			else
 				return false;

@@ -100,9 +100,10 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 		try
 		{
 			pcon = new PasswordControler();
-			String password = ""; // need to be setted
+			String password = "computer"; // need to be setted
 			String macAddress = "D0-50-99-4B-19-C3"; // need to be setted
 			
+			String inputPassword = "";
 			String macAdd = "";
 			
 			/* ========== Get mac address ========== */
@@ -122,26 +123,23 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 			}
 			catch(Exception ex)
 			{
-				JOptionPane.showMessageDialog(this, "Cannot run POS System!");
+				JOptionPane.showMessageDialog(this, "Cannot run POS System!<br>Please check network connection!");
 			}
 			
 			/* ========== ========== ========== */
 			
 			
 			for(int i = 0; i < passwordTextField.getPassword().length; i++)
-				password += passwordTextField.getPassword()[i];
+				inputPassword += passwordTextField.getPassword()[i];
 			
-			System.out.println(password);
-			System.out.println(pcon.checkPassword( password ) );
-			
-			if( pcon.checkPassword( password ) && macAddress.equals(macAdd) )
+			if( pcon.checkPassword( password, inputPassword ) && macAddress.equals(macAdd) )
 			{
 				POSPage mainPage = new POSPage();
 				this.dispose();
 			}
 			else
 			{
-				
+				JOptionPane.showMessageDialog(this, "Wrong password!");
 			}
 		}
 		catch(NullPointerException exception)
