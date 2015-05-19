@@ -16,13 +16,25 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 	
 	private TableListPanel tableListPanel;
 	
-	
+
+
+
+
+
+
 	private JButton addButton;
 	private JButton delButton;
 	private LineBorder lineBorder;
 	private int tableNum;
 	private PosData data;
-	
+		
+	public TableListPanel getTableListPanel() {
+		return tableListPanel;
+	}
+
+	public void setTableListPanel(TableListPanel tableListPanel) {
+		this.tableListPanel = tableListPanel;
+	}
 	public PosData getData() {
 		return data;
 	}

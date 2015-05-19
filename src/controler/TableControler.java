@@ -104,6 +104,7 @@ public class TableControler {
 			int menuIndex = searchOrderedMenu( tableIndex, menu );
 			
 			getData().getTableList().get(tableIndex).getOrderList().remove(menuIndex);
+			getData().getTableList().get(tableIndex).setTotalPrice( calculate( getData().getTableList().get(tableIndex) ) );
 		}
 		catch(Exception exception)
 		{

@@ -49,7 +49,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	
 	private ArrayList<MenuButton> foodListButton;
 	private ArrayList<MenuButton> drinkListButton;
-	private ArrayList<JButton> orderListButton;
+	private ArrayList<MenuButton> orderListButton;
 	
 	// for MenuAddPage
 	private JTextField menuTextField;
@@ -59,7 +59,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private int menuType; // 0 : Food, 1: Drink
 	final static int FOOD = 0;
 	final static int DRINK = 1;
-	//
+	final static  int ORDER = 2;
 	
 	
 	private TableCalculatePage tableCalculate;
@@ -76,6 +76,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private String currentDrinkName;
 	private String currentOrderName;
 	private int currentMenuType;
+	private TableInnerPanel tableInnerPanel;
 	
 	
 	
@@ -94,7 +95,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		foodListButton = new ArrayList<MenuButton>();
 		drinkListButton = new ArrayList<MenuButton>();
-		orderListButton = new ArrayList<JButton>();
+		orderListButton = new ArrayList<MenuButton>();
 		
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		this.setLayout(null);
@@ -447,6 +448,17 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		}
 		
 		
+		// 오더리스트 보이기
+		for(int i = 0; i < orderListButton.size(); i++)
+		{
+			if(e.getSource() == orderListButton.get(i) )
+			{
+				System.out.println(orderListButton.get(i).getMenuName());
+				setCurrentOrderName(orderListButton.get(i).getMenuName());
+				setCurrentMenuType(2);
+			}
+		}
+		
 		
 		
 		///// 찬영 변경 오더리스트 추가 기능 
@@ -485,25 +497,78 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 					System.out.println(getData().getTableList().get(i).getOrderList().get(j).getName() + "  " + getData().getTableList().get(i).getOrderList().get(j).getCount()  + "  " + getData().getTableList().get(i).getTotalPrice());
 				}
 			}
+			
 			setData(tableControler.getData());
 			showTableMenuList();
+			getTableInnerPanel().getTableListPanel().removeAll();
+			getTableInnerPanel().getTableListPanel().repaint();
+			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+		
+			
+
 		}
+
 		if(e.getSource()  == subMenuFromListButton)
 		{
-			
+			if(getCurrentMenuType() == ORDER)
+			{
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
+				Table table = getData().getTableList().get(Table.getSelectedTable());
+				Menu menu = new Food(getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
+						getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+				
+				tableControler.subOrder(table, menu);
+				
+
+			}
+			setData(tableControler.getData());
+			showTableMenuList();
+			repaint();
+			getTableInnerPanel().getTableListPanel().removeAll();
+			getTableInnerPanel().getTableListPanel().repaint();
+			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
 		}
+		
 		if(e.getSource()  == delMenuFromListButton)
 		{
-			
+			if(getCurrentMenuType() == ORDER)
+			{
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
+				Table table = getData().getTableList().get(Table.getSelectedTable());
+				/*
+				Menu menu = new Food(getData().getTableList().get(table.getTableNumber()).getOrderList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
+						getData().getTableList().get(table.getTableNumber()).getOrderList().get(menuControler.searchMenu(getCurrentOrderName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+*/
+				
+				Menu menu = new Food(getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
+						getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+				
+				tableControler.deleteOrder(table, menu);
+				
+
+			}
+			setData(tableControler.getData());
+			showTableMenuList();
+			repaint();
+			getTableInnerPanel().getTableListPanel().removeAll();
+			getTableInnerPanel().getTableListPanel().repaint();
+			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
 		}
 		if(e.getSource()  == resetMenuFromListButton)
 		{
-			
+
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
+			Table table = getData().getTableList().get(Table.getSelectedTable());
+
+			tableControler.resetOrder(table);
+
+			setData(tableControler.getData());
+			showTableMenuList();
+			repaint();
+			getTableInnerPanel().getTableListPanel().removeAll();
+			getTableInnerPanel().getTableListPanel().repaint();
+			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
 		}
-		
-			
-	
-		
 	}
 
 	
@@ -708,12 +773,12 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		for(int i = 0; i < getData().getTableList().get(Table.getSelectedTable()).getOrderList().size(); i++)
 		{
 			menu = getData().getTableList().get(Table.getSelectedTable()).getOrderList().get(i);
-			JButton menuButton = new JButton(menu.getName() + "  " + menu.getCount() + "개");
-			
+			MenuButton menuButton = new MenuButton(menu.getName() + "  " + menu.getCount() + "개");
+			menuButton.setMenuName(menu.getName());
 			lineBorder = new LineBorder(Color.BLACK, 3);
 			menuButton.setBackground(Color.WHITE);
 			menuButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-			//foodListButton[i].setBorder(lineBorder);
+			
 			menuButton.addActionListener(this);
 			
 			orderListButton.add(menuButton);
@@ -721,9 +786,10 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		
 		for(int i = 0; i < orderListButton.size(); i++)
 		{
-			tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, (i * 27), 194, 27);
+			tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, (i * 27)+1, 194, 27);
 		}
 	}
+	
 	
 	public void showFoodList()
 	{	
@@ -883,6 +949,14 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 
 	public void setCurrentMenuType(int currentMenuType) {
 		this.currentMenuType = currentMenuType;
+	}
+
+	public TableInnerPanel getTableInnerPanel() {
+		return tableInnerPanel;
+	}
+
+	public void setTableInnerPanel(TableInnerPanel tableInnerPanel) {
+		this.tableInnerPanel = tableInnerPanel;
 	}
 	
 }

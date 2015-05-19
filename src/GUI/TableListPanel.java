@@ -142,8 +142,10 @@ public class TableListPanel extends JPanel implements ActionListener
 				Table.setSelectedTable(i);
 				table[i].setBackground(new Color(200, 200, 200));
 				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());
-				
+				System.out.println(""+menuInnerPanel+"");
+				menuInnerPanel.repaint();	
 				menuInnerPanel.showTableMenuList();
+				
 			}
 		}
 		
