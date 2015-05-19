@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Menu implements Serializable{
 	/**
@@ -8,6 +9,8 @@ public class Menu implements Serializable{
 	 */
 	private static final long serialVersionUID = -9140534453939961687L;
 	private String name;
+	private Date date;
+	private boolean escape;
 	private int price;
 	private int count;
 	
@@ -17,6 +20,12 @@ public class Menu implements Serializable{
 		this.count = 1;
 	}
 	
+	public Menu(String name, int price, Date date) {
+		this.name = name;
+		this.price = price;
+		this.count = 1;
+		setDate(date);
+	}
 	public String getName() {
 		return name;
 	}
@@ -55,5 +64,21 @@ public class Menu implements Serializable{
 	{
 		if(getCount() > 1)
 			setCount(getCount() -1);
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public boolean isEscape() {
+		return escape;
+	}
+
+	public void setEscape(boolean escape) {
+		this.escape = escape;
 	}
 }

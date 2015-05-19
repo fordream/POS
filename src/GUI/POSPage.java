@@ -45,6 +45,7 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	{
 		super("POSMainPage", 1400, 800);
 		data = new PosData();
+		Table.setSelectedTable(-1);
 		
 		
 		//// read File PosData

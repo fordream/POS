@@ -52,6 +52,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		this.setBackground(Color.WHITE);
 		this.setBounds(10, 10, 780, 620);
 		printTableList(getTableNum());
+		repaintTableList(getTableNum());
 		
 		
 		for(int i = 0; i < getData().getTableList().size(); i++)
@@ -65,18 +66,35 @@ public class TableListPanel extends JPanel implements ActionListener
 		int j = 0;
 		for(int i= 0;i+j*6<tableNum; i++ )
 		{
-			if(i%6 == 0&& i !=0)
+			if(i%6 == 0 && i !=0)
 			{
 				j += 1;
 				i= 0;
 			}
 			printTable(i,j);
+
+		}
+	}
+	
+	public void repaintTableList(int tableNum)
+	{
+
+		for(int i = 0; i < tableNum; i++)
+		{
+			if(i == Table.getSelectedTable())
+				table[i].setBackground(new Color(200, 200, 200));
+			else
+				table[i].setBackground(Color.WHITE);
+			
+			if(getData().getTableList().get(i).getTotalPrice() > 0 && i != Table.getSelectedTable())
+				table[i].setBackground(new Color(200, 255, 200));
+			
 		}
 	}
 	
 	public void printTable(int i,int j)
 	{	
-		table[i+j*6] = new JButton("<html>"+"<p align = center>" + (i + j * 6 + 1)+"</p>" +"<br>±Ý¾×: " + (double)getData().getTableList().get(i+j*6).getTotalPrice() /10000 + "</html>");
+		table[i+j*6] = new JButton("<html>"+"<p align = center>" + (i + j * 6 + 1)+"</p>" +"<br>±Ý¾×<br>" + (int)getData().getTableList().get(i+j*6).getTotalPrice() + "¿ø" + "</html>");
 		table[i+j*6].setLayout(null);
 		table[i+j*6].setBackground(Color.WHITE);
 		table[i+j*6].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 17));
@@ -107,6 +125,7 @@ public class TableListPanel extends JPanel implements ActionListener
 			i--;
 			
 			printTable(i,j);
+			repaintTableList(getTableNum());
 			this.repaint();
 		}
 		
@@ -125,6 +144,7 @@ public class TableListPanel extends JPanel implements ActionListener
 			TableControler Tcon = new TableControler(data);
 			Tcon.deleteTable(newtable);
 			this.remove(table[tableNum]);
+			repaintTableList(getTableNum());
 			this.repaint();
 			
 		}
@@ -135,17 +155,25 @@ public class TableListPanel extends JPanel implements ActionListener
 		
 		for(int i = 0;i < tableNum;i++)
 		{
-			if(e.getSource()  == table[i])
+			if(e.getSource() == table[i] && Table.getSelectedTable() >= 0)
 			{
-				table[Table.getSelectedTable()].setBorder(lineBorder);
-				table[Table.getSelectedTable()].setBackground(Color.WHITE);
 				Table.setSelectedTable(i);
-				table[i].setBackground(new Color(200, 200, 200));
+				repaintTableList(getTableNum());
 				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());
 				System.out.println(""+menuInnerPanel+"");
+				menuInnerPanel.setCurrentTableMenuIndex(0);
 				menuInnerPanel.repaint();	
 				menuInnerPanel.showTableMenuList();
-				
+			}
+			if(Table.getSelectedTable() < 0)
+			{
+				Table.setSelectedTable(i);
+				repaintTableList(getTableNum());
+				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());
+				System.out.println(""+menuInnerPanel+"");
+				menuInnerPanel.setCurrentTableMenuIndex(0);
+				menuInnerPanel.repaint();	
+				menuInnerPanel.showTableMenuList();
 			}
 		}
 		

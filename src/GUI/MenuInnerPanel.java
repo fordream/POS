@@ -61,7 +61,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	private int menuType; // 0 : Food, 1: Drink
 	final static int FOOD = 0;
 	final static int DRINK = 1;
-	final static  int ORDER = 2;
+	final static int ORDER = 2;
 	
 	
 	private TableCalculatePage tableCalculate;
@@ -179,50 +179,16 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		}
 		//
 		
-		for(int i = 0; i < getData().getMenuList().size(); i++)
-		{
-			if(getData().getMenuList().get(i) instanceof Food)
-			{
-				Food food = (Food)getData().getMenuList().get(i);
-				
-				MenuButton foodButton = new MenuButton(food.getName() + " " + food.getPrice() + "¿ø");
-				
-				lineBorder = new LineBorder(Color.BLACK, 3);
-				foodButton.setBackground(Color.WHITE);
-				foodButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
-				//foodListButton[i].setBorder(lineBorder);
-				foodButton.addActionListener(this);
-				foodButton.addMouseListener(this);
-				foodButton.addFocusListener(this);
-				
-				foodListButton.add(foodButton);
-			}
-			else
-			{
-				Drink drink = (Drink)getData().getMenuList().get(i);
-				
-				MenuButton drinkButton = new MenuButton(drink.getName() + " " + drink.getPrice() + "¿ø");
-				
-				lineBorder = new LineBorder(Color.BLACK, 3);
-				drinkButton.setBackground(Color.WHITE);
-				drinkButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
-				//foodListButton[i].setBorder(lineBorder);
-				drinkButton.addActionListener(this);
-				drinkButton.addMouseListener(this);
-				drinkButton.addFocusListener(this);
-				
-				drinkListButton.add(drinkButton);
-			}
-		}
-		
-		
-		
 		// tableMenuListPanel setup
 		tableMenuListPanel = new JPanel();
 		lineBorder = new LineBorder(Color.BLACK, 3);
 		tableMenuListPanel.setBorder(lineBorder);
 		tableMenuListPanel.setBackground(Color.WHITE);
-		this.add(tableMenuListPanel).setBounds(280, 20, 200, 300);
+		tableMenuListPanel.setFocusable(true);
+		tableMenuListPanel.addMouseListener(this);
+		tableMenuListPanel.addFocusListener(this);
+		tableMenuListPanel.addMouseWheelListener(this);
+		this.add(tableMenuListPanel).setBounds(280, 20, 200, 303);
 		//
 		
 		
@@ -377,7 +343,8 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		}
 		else if(e.getSource() == calcTableButton)
 		{
-			tableCalculate = new TableCalculatePage( getData(), Table.getSelectedTable() );
+			if(Table.getSelectedTable() > -1)
+				tableCalculate = new TableCalculatePage( getData(), this );
 		}
 		else if(e.getSource() == enterButton)
 		{
@@ -421,6 +388,12 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			PosFileControler posFileControler = new PosFileControler(getData());
 			posFileControler.writeToFile();
 		}
+		
+		if(e.getSource() == calcAllButton)
+		{
+			new TotalCalculatePage();
+		}
+		
 		if(e.getSource() == delDrinkButton)
 		{
 			MenuControler mcon = new MenuControler(getData());
@@ -526,6 +499,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			getTableInnerPanel().getTableListPanel().removeAll();
 			getTableInnerPanel().getTableListPanel().repaint();
 			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+			getTableInnerPanel().getTableListPanel().repaintTableList(getTableInnerPanel().getTableListPanel().getTableNum());
 		
 			
 
@@ -535,28 +509,28 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 		{
 			if(getCurrentMenuType() == ORDER)
 			{
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
+				System.out.println("Subtract order" + " " +getCurrentOrderName() );
 				Table table = getData().getTableList().get(Table.getSelectedTable());
-				Menu menu = new Food(getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
-						getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+				Menu menu = new Menu(getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
+						getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
 				
 				tableControler.subOrder(table, menu);
-				
-
 			}
+			
 			setData(tableControler.getData());
 			showTableMenuList();
 			repaint();
 			getTableInnerPanel().getTableListPanel().removeAll();
 			getTableInnerPanel().getTableListPanel().repaint();
 			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+			getTableInnerPanel().getTableListPanel().repaintTableList(getTableInnerPanel().getTableListPanel().getTableNum());
 		}
 		
 		if(e.getSource()  == delMenuFromListButton)
 		{
 			if(getCurrentMenuType() == ORDER)
 			{
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
+				System.out.println("Delete order" + " " + getCurrentOrderName() );
 				Table table = getData().getTableList().get(Table.getSelectedTable());
 				/*
 				Menu menu = new Food(getData().getTableList().get(table.getTableNumber()).getOrderList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
@@ -564,10 +538,9 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 */
 				
 				Menu menu = new Food(getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getName(), 
-						getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
+						getData().getMenuList().get(menuControler.searchMenu(getCurrentOrderName())).getPrice()); // getData().getMenuList().get(menuControler.searchMenu(getCurrentFoodName()));
 				
 				tableControler.deleteOrder(table, menu);
-				
 
 			}
 			setData(tableControler.getData());
@@ -576,24 +549,39 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			getTableInnerPanel().getTableListPanel().removeAll();
 			getTableInnerPanel().getTableListPanel().repaint();
 			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+			getTableInnerPanel().getTableListPanel().repaintTableList(getTableInnerPanel().getTableListPanel().getTableNum());
 		}
 		if(e.getSource()  == resetMenuFromListButton)
 		{
-
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaa"+getCurrentOrderName() );
-			Table table = getData().getTableList().get(Table.getSelectedTable());
-
-			tableControler.resetOrder(table);
-
-			setData(tableControler.getData());
-			showTableMenuList();
-			repaint();
-			getTableInnerPanel().getTableListPanel().removeAll();
-			getTableInnerPanel().getTableListPanel().repaint();
-			getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+			 resetMenuFromList();
 		}
 	}
+	
+	public void resetMenuFromList()
+	{
+		System.out.println("Reset order" + " " + getCurrentOrderName() );
+		Table table = getData().getTableList().get(Table.getSelectedTable());
 
+		tableControler.resetOrder(table);
+
+		setData(tableControler.getData());
+		showTableMenuList();
+		repaint();
+		getTableInnerPanel().getTableListPanel().removeAll();
+		getTableInnerPanel().getTableListPanel().repaint();
+		getTableInnerPanel().getTableListPanel().printTableList(getData().getTableList().size());
+		getTableInnerPanel().getTableListPanel().repaintTableList(getTableInnerPanel().getTableListPanel().getTableNum());
+	}
+	
+	public void delMenuFromList()
+	{
+	
+	}
+
+	public void subMenuFromList()
+	{
+	
+	}
 	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -627,6 +615,12 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			{
 				System.out.println("mouse  wheel moved up in the table menu list");
 				
+				if(getCurrentTableMenuIndex() > 0)
+				{
+					setCurrentTableMenuIndex( getCurrentTableMenuIndex() - 1 );
+				}
+
+				showTableMenuList();
 			}
 		}
 		else if(e.getWheelRotation() > 0)
@@ -646,7 +640,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			{
 				System.out.println("mouse  wheel moved down in the drink menu list");
 				
-				if(getCurrentDrinkIndex() + 10 < foodListButton.size())
+				if(getCurrentDrinkIndex() + 10 < drinkListButton.size())
 				{
 					setCurrentDrinkIndex( getCurrentDrinkIndex() + 1 );
 				}
@@ -657,7 +651,13 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			else if(e.getSource() == tableMenuListPanel)
 			{
 				System.out.println("mouse  wheel moved down in the table menu list");
-				
+
+				if(getCurrentTableMenuIndex() + 11 < orderListButton.size())
+				{
+					setCurrentTableMenuIndex( getCurrentTableMenuIndex() + 1 );
+				}
+
+				showTableMenuList();
 			}
 		}
 		
@@ -914,13 +914,20 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			menuButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
 			
 			menuButton.addActionListener(this);
+			menuButton.addMouseListener(this);
+			menuButton.addFocusListener(this);
 			
 			orderListButton.add(menuButton);
 		}
 		
+		int k = 0;
+		
 		for(int i = j; i < orderListButton.size(); i++)
 		{
-			tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, (i * 27)+1, 194, 27);
+			tableMenuListPanel.add( orderListButton.get(i) ).setBounds(3, (k * 27)+3, 194, 27);
+			k++;
+			if(k > 10)
+				break;
 		}
 	}
 	
@@ -1056,7 +1063,7 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 	public void setCurrentDrinkIndex(int currentDrink) {
 		this.currentDrinkIndex = currentDrink;
 	}
-	
+
 	
 	public int getMenuType() {
 		return menuType;
