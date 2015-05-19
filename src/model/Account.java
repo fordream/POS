@@ -14,23 +14,36 @@ public class Account implements Serializable{
 	
 	private Date date;
 	private Table nowTable;
+	private boolean escape;
 	
-	public Account(Date date, Table nowTable) {
+	public Account(Date date, Table nowTable, boolean escape) {
 		super();
 		this.date = date;
 		this.nowTable = nowTable;
+		this.escape = escape;
 	}
 	public Date getDate() {
 		return date;
 	}
+	
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
 	public Table getNowTable() {
 		return nowTable;
 	}
+	
 	public void setNowTable(Table nowTable) {
 		this.nowTable = nowTable;
+	}
+	
+	public boolean isEscape() {
+		return escape;
+	}
+	
+	public void setEscape(boolean escape) {
+		this.escape = escape;
 	}
 
 }

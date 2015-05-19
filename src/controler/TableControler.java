@@ -75,7 +75,7 @@ public class TableControler {
 	{
 		try
 		{
-			int tableIndex = searchTable(myTable);
+			int tableIndex = Table.getSelectedTable();
 			int menuIndex = searchOrderedMenu( tableIndex, menu );
 			
 			if( getData().getTableList().get(tableIndex).getOrderList().get(menuIndex).getCount() == 1 )
