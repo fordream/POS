@@ -31,10 +31,9 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 	
 	private LineBorder lineBorder;
 	
-	//private JTextField menuTextFiedl;
-	//private JTextField priceTextFiedl;
-	//private JButton exitButton;
-	//private JButton enterButton;
+	private JLabel menuAddLabel;
+	private JLabel menuAddLabel2;
+	
 	private JLabel nameLAbel;
 	private JLabel priceLAbel;
 	
@@ -49,6 +48,24 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 		
 		
 		this.setLayout(null);
+		
+		lineBorder = new LineBorder(Color.BLACK, 3);
+		this.getRootPane().setBorder(lineBorder);
+		
+		menuAddLabel = new JLabel();
+		menuAddLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 30));
+		menuAddLabel.setForeground(Color.BLACK);
+		menuAddLabel.setText("∏ﬁ¥∫ √ﬂ∞°");
+		menuAddLabel.setVisible(true);
+		this.add(menuAddLabel).setBounds(140, 50 , 150, 50);
+		
+		menuAddLabel2 = new JLabel();
+		menuAddLabel2.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 20));
+		menuAddLabel2.setForeground(Color.BLACK);
+		menuAddLabel2.setText("(¿Ã∏ß¿Ã ∞∞¿∏∏È ∞°∞› ºˆ¡§)");
+		menuAddLabel2.setVisible(true);
+		this.add(menuAddLabel2).setBounds(90, 100, 250, 50);
+		
 		
 		
 		// name label setup
@@ -70,49 +87,6 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 		this.add(priceLAbel).setBounds(30, 200 , 50, 30);
 		//
 		
-		
-		/*
-		// menuTextFiedl setup
-		menuTextFiedl = new JTextField();
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		menuTextFiedl.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 16));
-		menuTextFiedl.setBorder(lineBorder);
-		menuTextFiedl.addKeyListener(this);
-		this.add(menuTextFiedl).setBounds(75, 150, 270, 30);
-		//
-		
-		
-		// priceTextFiedl setup
-		priceTextFiedl = new JTextField();
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		priceTextFiedl.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 16));
-		priceTextFiedl.setBorder(lineBorder);
-		priceTextFiedl.addKeyListener(this);
-		this.add(priceTextFiedl).setBounds(75, 200, 270, 30);
-		//
-		
-		
-		// enter button setup
-		enterButton = new JButton(" »Æ¿Œ ");
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		enterButton.setBackground(Color.WHITE);
-		enterButton.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 16));
-		enterButton.setBorder(lineBorder);
-		enterButton.addActionListener(this);
-		this.add(enterButton).setBounds(90, 250, 80, 30);
-		//
-		
-		
-		// exit button setup
-		exitButton = new JButton(" √Î º“ ");
-		lineBorder = new LineBorder(Color.BLACK, 3);
-		exitButton.setBackground(Color.WHITE);
-		exitButton.setFont(new Font("∏º¿∫ ∞ÌµÒ", Font.BOLD, 16));
-		exitButton.setBorder(lineBorder);
-		exitButton.addActionListener(this);
-		this.add(exitButton).setBounds(230, 250, 80, 30);
-		//
-		*/
 	}
 	public PosData getData() {
 		return data;
@@ -125,37 +99,7 @@ public class MenuAddPage extends SimpleJFrame implements ActionListener, KeyList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*
-		if(e.getSource() == exitButton)
-			this.dispose();
-		if(e.getSource() == enterButton)
-		{
-			
-			String newMenuName = menuTextFiedl.getText();
-			
-			int newMenuPrice = Integer.parseInt( priceTextFiedl.getText() );
-			
-			if(getMenuType() == FOOD)
-			{
-				Food food = new Food(newMenuName, newMenuPrice);
-				
-				MenuControler MCon = new MenuControler( getData() );
-				MCon.addMenu( food );
-				setData( MCon.getData() );
-			}
-			else if(getMenuType() == DRINK)
-			{
-				Drink drink = new Drink(newMenuName, newMenuPrice);
-				
-				MenuControler MCon = new MenuControler( getData() );
-				MCon.addMenu( drink );
-				setData( MCon.getData() );
-			}
-			
-			
-			this.dispose();
-		}
-		*/
+		
 	}
 
 

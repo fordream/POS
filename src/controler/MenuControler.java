@@ -2,6 +2,7 @@ package controler;
 
 import java.util.ArrayList;
 
+import model.Food;
 import model.Menu;
 import model.PosData;
 
@@ -98,6 +99,10 @@ public class MenuControler {
 	 * if there exists such menu then return the index of the menu<br>
 	 * otherwise, return negative value(-1)
 	 * 
+	 * 2015.05.20 - add case
+	 * if there is a menu that has same name but different type
+	 * then return -2
+	 * 
 	 * @return index
 	 */
 	public int searchMenu(Menu keyMenu)
@@ -108,6 +113,14 @@ public class MenuControler {
 		{
 			if( getData().getMenuList().get(i).getName().equals( keyMenu.getName() ))
 			{
+				if( !( (getData().getMenuList().get(i) instanceof Food) && (keyMenu instanceof Food) ) )
+				{
+					index = -2;
+				}
+				if( !( (getData().getMenuList().get(i) instanceof Food) && (keyMenu instanceof Food) ) )
+				{
+					index = -2;
+				}
 				index = i;
 				break;
 			}

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -760,6 +761,16 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			Food food = new Food(newMenuName, newMenuPrice);
 			
 			MenuControler MCon = new MenuControler( getData() );
+			
+			if( MCon.searchMenu(food.getName()) != -1)
+			{
+				if( getData().getMenuList().get( MCon.searchMenu(food.getName()) ) instanceof Drink )
+				{
+					JOptionPane.showMessageDialog(this, "종류가 다른 같은 이름의 메뉴가 존재합니다! 수정이 불가능합니다!");
+					return;
+				}
+			}
+			
 			MCon.addMenu( food );
 			setData( MCon.getData() );
 			
@@ -782,9 +793,18 @@ public class MenuInnerPanel extends JPanel implements ActionListener, KeyListene
 			Drink drink = new Drink(newMenuName, newMenuPrice);
 			
 			MenuControler MCon = new MenuControler( getData() );
+			
+			if( MCon.searchMenu(drink.getName()) != -1)
+			{
+				if( getData().getMenuList().get( MCon.searchMenu(drink.getName()) ) instanceof Food )
+				{
+					JOptionPane.showMessageDialog(this, "종류가 다른 같은 이름의 메뉴가 존재합니다! 수정이 불가능합니다!");
+					return;
+				}
+			}
+			
 			MCon.addMenu( drink );
 			setData( MCon.getData() );
-			
 			
 			MenuButton drinkButton = new MenuButton(drink.getName() + "  " + drink.getPrice() + "원");
 			
