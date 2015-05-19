@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -51,6 +52,10 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 	private int totalPrice;
 	private int escapePrice;
 	private int todayPrice;
+	
+	private int totalListFrom = 0;
+	private int escapeListFrom = 0;
+	private int todayListFrom = 0;
 	
 	
 	public TotalCalculatePage() {
@@ -167,6 +172,12 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		this.add(todayPriceLabel).setBounds(530, 400, 200, 30);
 		//
 		////
+		
+		makeButton();
+		
+		showTotalList();
+		showEscapeList();
+		showTodayList();
 	}
 	
 	
@@ -185,7 +196,9 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		ArrayList<Menu> escapeMenuList = new ArrayList<Menu>();
 		ArrayList<Menu> todayNetMenuList = new ArrayList<Menu>();
 		
-		ArrayList<Account> accountList = new ArrayList<Account>();
+		ArrayList<Account> accountList = getAccountDataPack().getAccountDataList();
+		
+		System.out.println("Account List Size" + accountList.size());
 		
 		/**
 		 * make menu lists for total, escape, today net
@@ -251,38 +264,196 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 			}
 		}
 		
+		System.out.println(totalMenuList.size());
+		System.out.println(escapeMenuList.size());
+		System.out.println(todayNetMenuList.size());
 		
 		/**
 		 * make button-for showing the list-lists for total, escape, today net
 		 */
-		for(int i = 0; i < accountList.size(); i++)
+		// make total menu button
+		for(int i = 0; i < totalMenuList.size(); i++)
 		{
-			// make total menu button
-				
-				
-			// make escape menu button
-				
-				
-			// make today net menu list
+			totalPrice += totalMenuList.get(i).getTotalPrice();
+					
+			MenuButton button = new MenuButton();
+			button.setMenuName( totalMenuList.get(i).getName() );
+			button.setMenuPrice( totalMenuList.get(i).getTotalPrice() );
+			
+			totalListButton.add(button);
+		}
+		
+		// make escape menu button
+		for(int i = 0; i < escapeMenuList.size(); i++)
+		{
+			escapePrice += escapeMenuList.get(i).getTotalPrice();
+			
+			MenuButton button = new MenuButton();
+			button.setMenuName( escapeMenuList.get(i).getName() );
+			button.setMenuPrice( escapeMenuList.get(i).getTotalPrice() );
+			
+			escapeListButton.add(button);
+		}
+		
+		// make today net menu list
+		for(int i = 0; i < todayNetMenuList.size(); i++)
+		{
+			todayPrice += todayNetMenuList.get(i).getTotalPrice();
+			
+			MenuButton button = new MenuButton();
+			button.setMenuName( todayNetMenuList.get(i).getName() );
+			button.setMenuPrice( todayNetMenuList.get(i).getTotalPrice() );
+			
+			todayListButton.add(button);
 		}
 	}
 	
 	
 	/* ========== Event Listener ========== */
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if( e.getSource() == exitButton ) {
+
+		if (e.getSource() == exitButton) {
 			this.dispose();
 		}
 	}
 
-
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getWheelRotation() < 0) {
+			if (e.getSource() == totalListPanel) {
+				System.out
+						.println("mouse wheel moved up in the food menu list");
+
+				if (getTotalListFrom() > 0) {
+					setTotalListFrom(getTotalListFrom() - 1);
+				}
+
+				showTotalList();
+			} else if (e.getSource() == escapeListPanel) {
+				System.out
+						.println("mouse wheel moved up in the food menu list");
+
+				if (getEscapeListFrom() > 0) {
+					setEscapeListFrom(getEscapeListFrom() - 1);
+				}
+
+				showEscapeList();
+			} else if (e.getSource() == todayListPanel) {
+				System.out
+						.println("mouse wheel moved up in the food menu list");
+
+				if (getTodayListFrom() > 0) {
+					setTodayListFrom(getTodayListFrom() - 1);
+				}
+
+				showTodayList();
+			}
+		} else if (e.getWheelRotation() > 0) {
+			if (e.getSource() == totalListPanel) {
+				System.out
+						.println("mouse wheel moved down in the food menu list");
+
+				if (getTotalListFrom() + 10 < totalListButton.size()) {
+					setTotalListFrom(getTotalListFrom() + 1);
+				}
+
+				showTotalList();
+			} else if (e.getSource() == escapeListPanel) {
+				System.out
+						.println("mouse wheel moved down in the food menu list");
+
+				if (getEscapeListFrom() + 10 < escapeListButton.size()) {
+					setEscapeListFrom(getEscapeListFrom() + 1);
+				}
+
+				showEscapeList();
+			}
+
+			else if (e.getSource() == todayListPanel) {
+				System.out
+						.println("mouse wheel moved down in the food menu list");
+
+				if (getTodayListFrom() + 10 < todayListButton.size()) {
+					setTodayListFrom(getTodayListFrom() + 1);
+				}
+
+				showTodayList();
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (e.getSource() == totalListPanel) {
+			System.out.println("mouse entered the totalListPanel");
+			totalListPanel.grabFocus();
+		} else if (e.getSource() == escapeListPanel) {
+			System.out.println("mouse entered the escapeListPanel");
+			escapeListPanel.grabFocus();
+		} else if (e.getSource() == todayListPanel) {
+			System.out.println("mouse entered the todayListPanel");
+			todayListPanel.grabFocus();
+		}
+	}
+
+	
+	/* ============== Repaint each panel =========== */
+	
+	public void showTotalList() 
+	{
+		int j = getTotalListFrom();
+
+		totalListPanel.removeAll();
+
+		int k = 0;
+
+		for (int i = j; i < totalListButton.size(); i++) 
+		{
+			totalListPanel.add(totalListButton.get(i)).setBounds(3,
+					(k * 27) + 3, 200, 20);
+			k++;
+			if (k > 15)
+				break;
+		}
+	}
+
+	public void showEscapeList() 
+	{
+		int j = getEscapeListFrom();
+
+		escapeListPanel.removeAll();
+
+		int k = 0;
+
+		for (int i = j; i < escapeListButton.size(); i++) 
+		{
+			escapeListPanel.add(escapeListButton.get(i)).setBounds(3,
+					(k * 27) + 3, 200, 20);
+			k++;
+			if (k > 15)
+				break;
+		}
+	}
+
+	public void showTodayList() 
+	{
+		int j = getTodayListFrom();
+
+		todayListPanel.removeAll();
+
+		int k = 0;
+
+		for (int i = j; i < todayListButton.size(); i++) 
+		{
+			todayListPanel.add(todayListButton.get(i)).setBounds(3,
+					(k * 27) + 3, 200, 20);
+			k++;
+			if (k > 15)
+				break;
+		}
 	}
 	
 	
@@ -295,4 +466,30 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 	public void setAccountDataPack(AccountData accountDataPack) {
 		this.accountDataPack = accountDataPack;
 	}
+
+	public int getTotalListFrom() {
+		return totalListFrom;
+	}
+
+	public void setTotalListFrom(int totalListFrom) {
+		this.totalListFrom = totalListFrom;
+	}
+
+	public int getEscapeListFrom() {
+		return escapeListFrom;
+	}
+
+
+	public void setEscapeListFrom(int escapeListFrom) {
+		this.escapeListFrom = escapeListFrom;
+	}
+
+	public int getTodayListFrom() {
+		return todayListFrom;
+	}
+
+	public void setTodayListFrom(int todayListFrom) {
+		this.todayListFrom = todayListFrom;
+	}
+	
 }
