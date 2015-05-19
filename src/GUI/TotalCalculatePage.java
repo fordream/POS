@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,6 +66,7 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		
 		// this setup
 		lineBorder = new LineBorder(Color.BLACK, 3);
+		this.getRootPane().setBorder(lineBorder);
 		//
 		
 		// exit button setup
@@ -89,6 +91,8 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		// Total OrderList TextField
 		totalListPanel = new JPanel();
 		lineBorder = new LineBorder(Color.BLACK, 3);
+		totalListPanel.setLayout(null);
+		totalListPanel.setBackground(Color.WHITE);
 		totalListPanel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
 		totalListPanel.setBorder(lineBorder);
 		totalListPanel.enable(false);
@@ -96,18 +100,6 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		totalListPanel.addMouseWheelListener(this);
 		this.add(totalListPanel).setBounds(30, 90, 200, 303);
 		//
-		
-		// Total Calculate Label
-		totalPriceLabel = new JLabel();
-		totalPriceLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		totalPriceLabel.setForeground(Color.BLACK);
-		totalPriceLabel.setText("Total :" + totalPrice + " ¿ø");
-		totalPriceLabel.setVisible(true);
-		this.add(totalPriceLabel).setBounds(30, 400, 200, 30);
-		//
-		////
-		
-		
 		
 		//// Escape Calculate
 		// Name Label
@@ -123,6 +115,8 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		// Total OrderList TextField
 		escapeListPanel = new JPanel();
 		lineBorder = new LineBorder(Color.BLACK, 3);
+		escapeListPanel.setBackground(Color.WHITE);
+		escapeListPanel.setLayout(null);
 		escapeListPanel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
 		escapeListPanel.setBorder(lineBorder);
 		escapeListPanel.enable(false);
@@ -130,16 +124,6 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		escapeListPanel.addMouseWheelListener(this);
 		this.add(escapeListPanel).setBounds(280, 90, 200, 303);
 		//
-	
-		// Total Calculate Label
-		escapePriceLabel = new JLabel();
-		escapePriceLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		escapePriceLabel.setForeground(Color.RED);
-		escapePriceLabel.setText("Total :" + escapePrice + " ¿ø");
-		escapePriceLabel.setVisible(true);
-		this.add(escapePriceLabel).setBounds(280, 400, 200, 30);
-		//
-		////
 			
 		
 		//// Pure Calculate
@@ -155,6 +139,8 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		// Total OrderList TextField
 		todayListPanel = new JPanel();
 		lineBorder = new LineBorder(Color.BLACK, 3);
+		todayListPanel.setBackground(Color.WHITE);
+		todayListPanel.setLayout(null);
 		todayListPanel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
 		todayListPanel.setBorder(lineBorder);
 		todayListPanel.enable(false);
@@ -163,6 +149,22 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		this.add(todayListPanel).setBounds(530, 90, 200, 303);
 		//
 	
+		makeButton();
+		
+		showTotalList();
+		showEscapeList();
+		showTodayList();
+		
+		// Total Calculate Label
+		totalPriceLabel = new JLabel();
+		totalPriceLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		totalPriceLabel.setForeground(Color.BLACK);
+		totalPriceLabel.setText("Total :" + totalPrice + " ¿ø");
+		totalPriceLabel.setVisible(true);
+		this.add(totalPriceLabel).setBounds(30, 400, 200, 30);
+		//
+		////
+		
 		// Total Calculate Label
 		todayPriceLabel = new JLabel();
 		todayPriceLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
@@ -173,11 +175,15 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		//
 		////
 		
-		makeButton();
-		
-		showTotalList();
-		showEscapeList();
-		showTodayList();
+		// Total Calculate Label
+		escapePriceLabel = new JLabel();
+		escapePriceLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		escapePriceLabel.setForeground(Color.RED);
+		escapePriceLabel.setText("Total :" + escapePrice + " ¿ø");
+		escapePriceLabel.setVisible(true);
+		this.add(escapePriceLabel).setBounds(280, 400, 200, 30);
+		//
+		////
 	}
 	
 	
@@ -198,8 +204,6 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		
 		ArrayList<Account> accountList = getAccountDataPack().getAccountDataList();
 		
-		System.out.println("Account List Size" + accountList.size());
-		
 		/**
 		 * make menu lists for total, escape, today net
 		 */
@@ -209,32 +213,40 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 			
 			for(int j = 0; j < currentMenuList.size(); j++)
 			{
+				int k;
+				
 				// make total menu list
-				for(int k = 0; k < totalMenuList.size(); k++)
+				for(k = 0; k < totalMenuList.size(); k++)
 				{
-					if(totalMenuList.get(k).getName() == currentMenuList.get(j).getName())
+					if(totalMenuList.get(k).getName().equals(currentMenuList.get(j).getName()))
 					{
 						totalMenuList.get(k).setCount(totalMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+						k = -1;
+						break;
 					}
-					else
-					{
-						totalMenuList.add( currentMenuList.get(j) );
-					}
+				}
+				if(k > -1)
+				{
+					Menu menu = new Menu( currentMenuList.get(j).getName(), currentMenuList.get(j).getPrice() );
+					totalMenuList.add( menu );
 				}
 				
 				// make escape menu list
 				if( accountList.get(i).isEscape() ) // if escape
 				{
-					for(int k = 0; k < escapeMenuList.size(); k++)
+					for(k = 0; k < escapeMenuList.size(); k++)
 					{
-						if(escapeMenuList.get(k).getName() == currentMenuList.get(j).getName())
+						if(escapeMenuList.get(k).getName().equals(currentMenuList.get(j).getName()))
 						{
 							escapeMenuList.get(k).setCount(escapeMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+							k = -1;
+							break;
 						}
-						else
-						{
-							escapeMenuList.add( currentMenuList.get(j) );
-						}
+					}
+					if(k > -1)
+					{
+						Menu menu = new Menu( currentMenuList.get(j).getName(), currentMenuList.get(j).getPrice() );
+						escapeMenuList.add( menu );
 					}
 				}
 				
@@ -247,16 +259,19 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 				{
 					if( !accountList.get(i).isEscape() ) // if not escape
 					{
-						for(int k = 0; k < todayNetMenuList.size(); k++)
+						for(k = 0; k < todayNetMenuList.size(); k++)
 						{
-							if(todayNetMenuList.get(k).getName() == currentMenuList.get(j).getName())
+							if(todayNetMenuList.get(k).getName().equals(currentMenuList.get(j).getName()))
 							{
 								todayNetMenuList.get(k).setCount(todayNetMenuList.get(k).getCount() + currentMenuList.get(j).getCount());
+								k = -1;
+								break;
 							}
-							else
-							{
-								todayNetMenuList.add( currentMenuList.get(j) );
-							}
+						}
+						if(k > -1)
+						{
+							Menu menu = new Menu( currentMenuList.get(j).getName(), currentMenuList.get(j).getPrice() );
+							todayNetMenuList.add( menu );
 						}
 					}
 				}
@@ -275,10 +290,27 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		for(int i = 0; i < totalMenuList.size(); i++)
 		{
 			totalPrice += totalMenuList.get(i).getTotalPrice();
-					
+			
+			JTextField name = new JTextField("  " + totalMenuList.get(i).getName());
+			JTextField count = new JTextField(totalMenuList.get(i).getCount() + " °³ (" + totalMenuList.get(i).getPrice() + "¿ø)");
+			count.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			name.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			count.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			name.setEditable(false);
+			name.setBackground(Color.WHITE);
+			count.setEditable(false);
+			count.setBackground(Color.WHITE);
+			name.setBorder(null);
+			count.setBorder(null);
+
 			MenuButton button = new MenuButton();
+			button.setLayout(null);
+			button.add(name).setBounds(1, 1, 95, 26);
+			button.add(count).setBounds(95, 1, 97, 26);
 			button.setMenuName( totalMenuList.get(i).getName() );
 			button.setMenuPrice( totalMenuList.get(i).getTotalPrice() );
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			button.setBackground(Color.WHITE);
 			
 			totalListButton.add(button);
 		}
@@ -288,21 +320,59 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 		{
 			escapePrice += escapeMenuList.get(i).getTotalPrice();
 			
+			JTextField name = new JTextField("  " + escapeMenuList.get(i).getName());
+			JTextField count = new JTextField(escapeMenuList.get(i).getCount() + " °³");
+			count.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			name.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			count.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			name.setEditable(false);
+			name.setBackground(Color.WHITE);
+			count.setEditable(false);
+			count.setBackground(Color.WHITE);
+			name.setBorder(null);
+			count.setBorder(null);
+			
 			MenuButton button = new MenuButton();
+			button.setLayout(null);
+			button.add(name).setBounds(1, 1, 95, 26);
+			button.add(count).setBounds(95, 1, 97, 26);
 			button.setMenuName( escapeMenuList.get(i).getName() );
 			button.setMenuPrice( escapeMenuList.get(i).getTotalPrice() );
+			button.setMenuName( totalMenuList.get(i).getName() );
+			button.setMenuPrice( totalMenuList.get(i).getTotalPrice() );
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			button.setBackground(Color.WHITE);
 			
 			escapeListButton.add(button);
 		}
 		
-		// make today net menu list
+		// make today net menu button
 		for(int i = 0; i < todayNetMenuList.size(); i++)
 		{
 			todayPrice += todayNetMenuList.get(i).getTotalPrice();
 			
+			JTextField name = new JTextField("  " + todayNetMenuList.get(i).getName());
+			JTextField count = new JTextField(todayNetMenuList.get(i).getCount() + " °³");
+			count.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+			name.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			count.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
+			name.setEditable(false);
+			name.setBackground(Color.WHITE);
+			count.setEditable(false);
+			count.setBackground(Color.WHITE);
+			name.setBorder(null);
+			count.setBorder(null);
+			
 			MenuButton button = new MenuButton();
+			button.setLayout(null);
+			button.add(name).setBounds(1, 1, 95, 26);
+			button.add(count).setBounds(95, 1, 97, 26);
 			button.setMenuName( todayNetMenuList.get(i).getName() );
 			button.setMenuPrice( todayNetMenuList.get(i).getTotalPrice() );
+			button.setMenuName( totalMenuList.get(i).getName() );
+			button.setMenuPrice( totalMenuList.get(i).getTotalPrice() );
+			lineBorder = new LineBorder(Color.BLACK, 3);
+			button.setBackground(Color.WHITE);
 			
 			todayListButton.add(button);
 		}
@@ -355,7 +425,7 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 				System.out
 						.println("mouse wheel moved down in the food menu list");
 
-				if (getTotalListFrom() + 10 < totalListButton.size()) {
+				if (getTotalListFrom() + 11 < totalListButton.size()) {
 					setTotalListFrom(getTotalListFrom() + 1);
 				}
 
@@ -364,7 +434,7 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 				System.out
 						.println("mouse wheel moved down in the food menu list");
 
-				if (getEscapeListFrom() + 10 < escapeListButton.size()) {
+				if (getEscapeListFrom() + 11 < escapeListButton.size()) {
 					setEscapeListFrom(getEscapeListFrom() + 1);
 				}
 
@@ -375,7 +445,7 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 				System.out
 						.println("mouse wheel moved down in the food menu list");
 
-				if (getTodayListFrom() + 10 < todayListButton.size()) {
+				if (getTodayListFrom() + 11 < todayListButton.size()) {
 					setTodayListFrom(getTodayListFrom() + 1);
 				}
 
@@ -412,10 +482,9 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 
 		for (int i = j; i < totalListButton.size(); i++) 
 		{
-			totalListPanel.add(totalListButton.get(i)).setBounds(3,
-					(k * 27) + 3, 200, 20);
+			totalListPanel.add(totalListButton.get(i)).setBounds(3, (k * 27) + 3, 194, 28);
 			k++;
-			if (k > 15)
+			if (k > 10)
 				break;
 		}
 	}
@@ -430,10 +499,9 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 
 		for (int i = j; i < escapeListButton.size(); i++) 
 		{
-			escapeListPanel.add(escapeListButton.get(i)).setBounds(3,
-					(k * 27) + 3, 200, 20);
+			escapeListPanel.add(escapeListButton.get(i)).setBounds(3, (k * 27) + 3, 194, 28);
 			k++;
-			if (k > 15)
+			if (k > 10)
 				break;
 		}
 	}
@@ -448,10 +516,9 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 
 		for (int i = j; i < todayListButton.size(); i++) 
 		{
-			todayListPanel.add(todayListButton.get(i)).setBounds(3,
-					(k * 27) + 3, 200, 20);
+			todayListPanel.add(todayListButton.get(i)).setBounds(3,	(k * 27) + 3, 194, 28);
 			k++;
-			if (k > 15)
+			if (k > 10)
 				break;
 		}
 	}

@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 
 public class LoginPage extends SimpleJFrame implements ActionListener, KeyListener{
 
@@ -98,7 +100,33 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 		try
 		{
 			pcon = new PasswordControler();
-			String password = "";
+			String password = ""; // need to be setted
+			String macAddress = "D0-50-99-4B-19-C3"; // need to be setted
+			
+			String macAdd = "";
+			
+			/* ========== Get mac address ========== */
+			
+			try
+			{
+				InetAddress addr = InetAddress.getLocalHost();
+				NetworkInterface ni = NetworkInterface.getByInetAddress(addr);
+				byte[] mac = ni.getHardwareAddress();
+				
+				for (int i = 0; i < mac.length; i++)
+				{
+					macAdd += String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : "");
+				}
+				
+				System.out.println(macAdd);
+			}
+			catch(Exception ex)
+			{
+				JOptionPane.showMessageDialog(this, "Cannot run POS System!");
+			}
+			
+			/* ========== ========== ========== */
+			
 			
 			for(int i = 0; i < passwordTextField.getPassword().length; i++)
 				password += passwordTextField.getPassword()[i];
@@ -106,7 +134,7 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 			System.out.println(password);
 			System.out.println(pcon.checkPassword( password ) );
 			
-			if( pcon.checkPassword( password ) )
+			if( pcon.checkPassword( password ) && macAddress.equals(macAdd) )
 			{
 				POSPage mainPage = new POSPage();
 				this.dispose();

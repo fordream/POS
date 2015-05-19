@@ -25,6 +25,8 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 	private JLabel posMainLabel;
 	private JLabel logoLabel;
 	private JButton exitButton;
+	
+	private JLabel developersLabel; // 개발자 명단 추가 : 상단 위 종료버튼 옆
  
 	private PosData data;
 	
@@ -54,7 +56,15 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		setData(posFileControler.getData());
 		
 		
+		/* ========== Developers Label ========== */
 		
+		developersLabel = new JLabel();
+		developersLabel.setText("<html>Developed by 컴퓨터학부<br>2011105038 박동원 2011105062 유동규<br>"
+				+ "2014105002 곽대훈 2014105076 이찬영</html>");
+		developersLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		this.add(developersLabel).setBounds(870, -10, 500, 100);
+		
+		/* ========== ========== ========== */
 		
 		
 		/////
