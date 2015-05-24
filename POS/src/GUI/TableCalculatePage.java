@@ -211,7 +211,8 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener, 
 			System.out.println("dispose the table caluate frame");
 			
 			menuInnerPanel.resetMenuFromList();
-			
+
+			POSPage.setOnTableCalculateFrame(false);	
 			this.dispose();
 		}
 		
@@ -227,14 +228,16 @@ public class TableCalculatePage extends SimpleJFrame implements ActionListener, 
 			System.out.println("dispose the table caluate frame");
 
 			menuInnerPanel.resetMenuFromList();
-			
+
+			POSPage.setOnTableCalculateFrame(false);	
 			this.dispose();
 		}
 		
 		
 		if ( e.getSource() == cancelButton) {
 			System.out.println("dispose the table caluate frame");
-			
+
+			POSPage.setOnTableCalculateFrame(false);	
 			this.dispose();
 		}
 		

@@ -387,6 +387,7 @@ public class TotalCalculatePage extends SimpleJFrame implements ActionListener, 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == exitButton) {
+			POSPage.setOnTotalCalculateFrame(false);
 			this.dispose();
 		}
 	}

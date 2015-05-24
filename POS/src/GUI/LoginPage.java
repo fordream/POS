@@ -85,6 +85,7 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 		enterButton.setBackground(Color.WHITE);
 		enterButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		enterButton.setBorder(null);
+		enterButton.setOpaque(true);
 		enterButton.addActionListener(this);
 		enterButton.setFocusPainted(false);
 		enterButton.setForeground(Color.WHITE);
@@ -98,6 +99,7 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 		cancelButton.setBackground(Color.WHITE);
 		cancelButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 14));
 		cancelButton.setBorder(null);
+		cancelButton.setOpaque(true);
 		cancelButton.addActionListener(this);
 		cancelButton.setFocusPainted(false);
 		cancelButton.setForeground(Color.WHITE);
@@ -143,7 +145,7 @@ public class LoginPage extends SimpleJFrame implements ActionListener, KeyListen
 			for(int i = 0; i < passwordTextField.getPassword().length; i++)
 				inputPassword += passwordTextField.getPassword()[i];
 			
-			if( macAddress.equals(macAdd) )
+			if(true)// macAddress.equals(macAdd) )
 		      {
 		         if( pcon.checkPassword( password, inputPassword ) )
 		         {

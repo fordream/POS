@@ -112,6 +112,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		tableButtons.get(index).setBackground(Color.WHITE);
 		tableButtons.get(index).setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 17));
 		tableButtons.get(index).setBorder(lineBorder);
+		tableButtons.get(index).setOpaque(true);
 		tableButtons.get(index).addActionListener(this);
 		tableButtons.get(index).setFocusPainted(false);
 		this.add(tableButtons.get(index)).setBounds(10 + i*128, 10+j*150, 120, 120);
@@ -159,7 +160,7 @@ public class TableListPanel extends JPanel implements ActionListener
 		
 		for(int i = 0; i < getTableNum(); i++)
 		{
-			if(e.getSource() == tableButtons.get(i) && Table.getSelectedTable() >= 0)
+			if(e.getSource() == tableButtons.get(i) && Table.getSelectedTable() >= 0 && POSPage.isOnTableCalculateFrame() == false)
 			{
 				Table.setSelectedTable(i);
 				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());
@@ -168,7 +169,7 @@ public class TableListPanel extends JPanel implements ActionListener
 				menuInnerPanel.showTableMenuList();
 				repaintTableList();
 			}
-			if(Table.getSelectedTable() < 0)
+			if(Table.getSelectedTable() < 0 && POSPage.isOnTableCalculateFrame() == false)
 			{
 				Table.setSelectedTable(i);
 				System.out.println("table["+(i)+"]"+data.getTableList().get(i).getOrderList() + "select: " + Table.getSelectedTable());

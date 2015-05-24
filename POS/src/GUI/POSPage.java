@@ -32,11 +32,23 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
  
 	private PosData data;
 	
+	private static boolean onAddMenuFrame;
+	private static boolean onTableCalculateFrame;
+	private static boolean onTotalCalculateFrame;
+	private static boolean onResetFrame;
 	
 	private TableInnerPanel tableInnerPanel;
 	private MenuInnerPanel menuInnerPanel;
 
 	
+	public static boolean isOnResetFrame() {
+		return onResetFrame;
+	}
+
+	public static void setOnResetFrame(boolean onResetFrame) {
+		POSPage.onResetFrame = onResetFrame;
+	}
+
 	public PosData getData() {
 		return data;
 	}
@@ -51,6 +63,10 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		data = new PosData();
 		Table.setSelectedTable(-1);
 		
+		setOnAddMenuFrame(false);
+		setOnTableCalculateFrame(false);
+		setOnTotalCalculateFrame(false);
+		setOnResetFrame(false);
 		
 		//// read File PosData
 		PosFileControler posFileControler = new PosFileControler(getData());
@@ -61,8 +77,8 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		/* ========== Developers Label ========== */
 		
 		developersLabel = new JLabel();
-		developersLabel.setText("<html>Developed by 컴퓨터학부 REVOLUTION<br>2011105038 박동원, 2011105062 유동규, "
-				+ "2014105002 곽대훈, 2014105076 이찬영</html>");
+		developersLabel.setText("<html>Developed by KNU 컴퓨터학부 REVOLUTION<br> 박동원, 유동규, "
+				+ " 곽대훈, 이찬영</html>");
 		developersLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
 		this.add(developersLabel).setBounds(35, 728, 500, 100);
 		
@@ -181,4 +197,27 @@ public class POSPage extends SimpleJFrame implements ActionListener, KeyListener
 		
 	}
 
+	public static boolean isOnAddMenuFrame() {
+		return onAddMenuFrame;
+	}
+
+	public static void setOnAddMenuFrame(boolean data) {
+		onAddMenuFrame = data;
+	}
+
+	public static boolean isOnTableCalculateFrame() {
+		return onTableCalculateFrame;
+	}
+
+	public static void setOnTableCalculateFrame(boolean data) {
+		onTableCalculateFrame = data;
+	}
+
+	public static boolean isOnTotalCalculateFrame() {
+		return onTotalCalculateFrame;
+	}
+
+	public static void setOnTotalCalculateFrame(boolean data) {
+		onTotalCalculateFrame = data;
+	}
 }

@@ -115,10 +115,11 @@ public class TableInnerPanel extends JPanel implements ActionListener{
                 lineBorder = new LineBorder(Color.BLACK, 3);
 
                 checkPage.getRootPane().setBorder(lineBorder);
-
-                JLabel textLabel = new JLabel("정말 삭제하시겠습니까?");
+                checkPage.setAlwaysOnTop(true);
+                
+                JLabel textLabel = new JLabel("정말 테이블 " + (Table.getSelectedTable() + 1) + "을 삭제하시겠습니까?");
                 textLabel.setBackground(Color.WHITE);
-                textLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24));
+                textLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
                 textLabel.setBorder(null);
 
                 ok = new JButton(" 삭 제 ");
@@ -136,14 +137,14 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 
                 checkPage.add(ok).setBounds(50, 200, 100, 50);
                 checkPage.add(cancel).setBounds(250, 200, 100, 50);
-                checkPage.add(textLabel).setBounds(70, 90, 300, 50);
+                checkPage.add(textLabel).setBounds(60, 90, 300, 50);
         }
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-                if(e.getSource() == addButton)
+                if(e.getSource() == addButton && POSPage.isOnTableCalculateFrame() == false)
                 {
                         System.out.println("addTable button clicked");
                         tableListPanel.addTableList();
@@ -152,17 +153,20 @@ public class TableInnerPanel extends JPanel implements ActionListener{
                         PosFileControler posFileControler = new PosFileControler(getData());
                         posFileControler.writeToFile();
 
-
-
                 }
-                else if(e.getSource() == delButton)
+                else if(e.getSource() == delButton && POSPage.isOnTableCalculateFrame() == false)
                 {
+                	if(POSPage.isOnResetFrame() == false)
+                	{
+                		POSPage.setOnResetFrame(true);
                         System.out.println("delTable button clicked");
 
                         showCheckPage();
+                	}
                 }
                 else if(e.getSource() == ok)
                 {
+                	POSPage.setOnResetFrame(false);
                         tableListPanel.delTable(Table.getSelectedTable());
 
                         setData(tableListPanel.getData());
@@ -173,6 +177,7 @@ public class TableInnerPanel extends JPanel implements ActionListener{
                 }
                 else if(e.getSource() == cancel)
                 {
+                	POSPage.setOnResetFrame(false);
                         checkPage.dispose();
                 }
                 // TODO Auto-generated method stub
