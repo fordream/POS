@@ -119,6 +119,7 @@ public class TableInnerPanel extends JPanel implements ActionListener{
                 
                 JLabel textLabel = new JLabel("정말 테이블 " + (Table.getSelectedTable() + 1) + "을 삭제하시겠습니까?");
                 textLabel.setBackground(Color.WHITE);
+                textLabel.setHorizontalAlignment(JLabel.CENTER);
                 textLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
                 textLabel.setBorder(null);
 
@@ -137,7 +138,7 @@ public class TableInnerPanel extends JPanel implements ActionListener{
 
                 checkPage.add(ok).setBounds(50, 200, 100, 50);
                 checkPage.add(cancel).setBounds(250, 200, 100, 50);
-                checkPage.add(textLabel).setBounds(60, 90, 300, 50);
+                checkPage.add(textLabel).setBounds(10, 90, 380, 50);
         }
 
 
